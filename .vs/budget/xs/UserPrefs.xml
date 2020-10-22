@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{5F4F3A65-C24B-418E-AE0F-F1E53DADE1BB}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="API/API.csproj">
+    <Files>
+      <File FileName="API/Program.cs" Line="1" Column="1" />
+      <File FileName="API/Startup.cs" Line="1" Column="1" />
+      <File FileName="API/API.csproj" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="budget" expanded="True" selected="True">
+            <Node name="API" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
