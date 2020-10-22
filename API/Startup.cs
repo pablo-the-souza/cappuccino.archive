@@ -27,6 +27,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddServices(IArchiveBoxRepository, ArchiveBoxRepository)
             services.AddDbContext<DataContext>(x =>
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 

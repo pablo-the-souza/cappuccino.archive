@@ -9,7 +9,7 @@ namespace API.Data
         public ArchiveContext(DbContextOptions<ArchiveContext> options) : base(options) { }
 
         public DbSet<ArchiveBox> ArchiveBoxes { get; set; }
-        public DbSet<ArchivePolicy> ArchivePolicies { get; set; }
+        public DbSet<ArchiveFile> ArchiveFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,26 +52,26 @@ namespace API.Data
                 }
                 );
 
-            modelBuilder.Entity<ArchivePolicy>().HasData(
-               new ArchivePolicy()
+            modelBuilder.Entity<ArchiveFile>().HasData(
+               new ArchiveFile()
                {
                    Id = Guid.Parse("5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"),
                    ArchiveBoxId = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
                    Name = "Commandeering a Ship Without Getting Caught",
                },
-               new ArchivePolicy()
+               new ArchiveFile()
                {
                    Id = Guid.Parse("d8663e5e-7494-4f81-8739-6e0de1bea7ee"),
                    ArchiveBoxId = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
                    Name = "Overthrowing Mutiny",
                },
-               new ArchivePolicy()
+               new ArchiveFile()
                {
                    Id = Guid.Parse("d173e20d-159e-4127-9ce9-b0ac2564ad97"),
                    ArchiveBoxId = Guid.Parse("da2fd609-d754-4feb-8acd-c4f9ff13ba96"),
                    Name = "Avoiding Brawls While Drinking as Much Rum as You Desire",
                },
-               new ArchivePolicy()
+               new ArchiveFile()
                {
                    Id = Guid.Parse("40ff5488-fdab-45b5-bc3a-14302d59869a"),
                    ArchiveBoxId = Guid.Parse("2902b665-1190-4c70-9915-b9c2d7680450"),

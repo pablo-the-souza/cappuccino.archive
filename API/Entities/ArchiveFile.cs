@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Archive.API.Entities
 {
-    public class ArchivePolicy
+    public class ArchiveFile
     {
         [Key]       
         public Guid Id { get; set; }
