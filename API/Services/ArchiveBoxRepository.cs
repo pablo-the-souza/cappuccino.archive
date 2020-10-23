@@ -17,17 +17,21 @@ namespace Archive.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<ArchiveBox> GetBoxes(IEnumerable<Guid> archiveBoxIds)
+public IEnumerable<ArchiveBox> GetBoxes()
         {
-            if (archiveBoxIds == null)
-            {
-                throw new ArgumentNullException(nameof(archiveBoxIds));
-            }
-
-            return _context.ArchiveBoxes.Where(a => archiveBoxIds.Contains(a.Id))
-                .OrderBy(a => a.Name)
-                .ToList();
+            return _context.ArchiveBoxes.ToList<ArchiveBox>();
         }
+        // public IEnumerable<ArchiveBox> GetBoxes(IEnumerable<Guid> archiveBoxIds)
+        // {
+        //     if (archiveBoxIds == null)
+        //     {
+        //         throw new ArgumentNullException(nameof(archiveBoxIds));
+        //     }
+
+        //     return _context.ArchiveBoxes.Where(a => archiveBoxIds.Contains(a.Id))
+        //         .OrderBy(a => a.Name)
+        //         .ToList();
+        // }
         // public void AddBox(ArchiveBox archiveBox)
         // {
         //     if (archiveBox == null)
@@ -74,11 +78,6 @@ namespace Archive.API.Services
         //     }
 
         //     return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
-        // }
-
-        // public IEnumerable<ArchiveBox> GetBoxes()
-        // {
-        //     return _context.ArchiveBoxes.ToList<ArchiveBox>();
         // }
 
         // public void UpdateBox(ArchiveBox archiveBox)

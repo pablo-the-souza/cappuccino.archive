@@ -1,7 +1,9 @@
 
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,17 +13,19 @@ namespace CourseLibrary.API.Controllers
     [Route("api/boxes")]
     public class BoxesController : ControllerBase
     {
-        private readonly ArchiveContext _context;
+        private readonly IArchiveBoxRepository _archiveBoxRepository;
 
-        public BoxesController(ArchiveContext context)
+        public BoxesController(IArchiveBoxRepository archiveBoxRepository)
         {
-            _context = context;
+            _archiveBoxRepository = archiveBoxRepository ??
+                throw new ArgumentNullException(nameof(archiveBoxRepository));
         }
         
         [HttpGet]
-        public ActionResult<IEnumerable<ArchiveBox>> GetBoxes()
+        public IActionResult GetBoxes()
         {
-            return _context.ArchiveBoxes.ToList();
+            var boxesFromRepo = _archiveBoxRepository.GetBoxes();
+            return new JsonResult(boxesFromRepo);
         }
 
         // [HttpGet("{id}", Name = "GetRecordById")]
