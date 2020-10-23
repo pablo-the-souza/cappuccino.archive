@@ -13,6 +13,10 @@ namespace Archive.API.Entities
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string Code { get; set; }
+
         [ForeignKey("ArchiveBoxId")]
         public ArchiveBox ArchiveBox { get; set; }
 

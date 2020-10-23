@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.ResourceParameters;
 
 namespace Archive.API.Services
 {
@@ -26,15 +27,33 @@ namespace Archive.API.Services
                 .OrderBy(f => f.Name).ToList();
         }
 
-        public IEnumerable<ArchiveFile> GetFiles(string searchQuery)
+        public IEnumerable<ArchiveFile> GetFiles(FilesResourceParameters filesResourceParameters)
         {
-            if (string.IsNullOrWhiteSpace(searchQuery))
+            if (filesResourceParameters == null) 
+            {
+                throw new ArgumentNullException(nameof(filesResourceParameters));
+            }
+
+            if(string.IsNullOrWhiteSpace(filesResourceParameters.searchByName) &&
+               string.IsNullOrWhiteSpace(filesResourceParameters.searchByCode)) 
             {
                 return GetFiles();
             }
+
+            //deferred execution
             var collection = _context.ArchiveFiles as IQueryable<ArchiveFile>;
-            searchQuery = searchQuery.Trim();
-            collection = collection.Where(b => b.Name.Contains(searchQuery));
+
+            if(!string.IsNullOrWhiteSpace(filesResourceParameters.searchByName)) 
+            {
+                var searchByName = filesResourceParameters.searchByName.Trim();
+                collection = collection.Where(b => b.Name.Contains(searchByName));
+            }
+
+            if(!string.IsNullOrWhiteSpace(filesResourceParameters.searchByCode)) 
+            {
+                var searchByCode = filesResourceParameters.searchByCode.Trim();
+                collection = collection.Where(b => b.Code.Contains(searchByCode));
+            }     
 
             return collection.ToList();
         }
@@ -78,7 +97,7 @@ namespace Archive.API.Services
                 throw new ArgumentNullException(nameof(fileId));
             }
 
-            return _context.ArchiveBoxes.Any(a => a.Id == fileId);
+            return _context.ArchiveFiles.Any(a => a.Id == fileId);
         }
 
         public bool Save()

@@ -1,6 +1,7 @@
 
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.ResourceParameters;
 using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,9 +23,9 @@ namespace CourseLibrary.API.Controllers
         }
         
         [HttpGet()]
-        public IActionResult GetBoxes(string searchQuery)
+        public IActionResult GetBoxes([FromQuery] BoxesResourceParameters boxesResourceParameters)
         {
-            var boxesFromRepo = _archiveBoxRepository.GetBoxes(searchQuery);
+            var boxesFromRepo = _archiveBoxRepository.GetBoxes(boxesResourceParameters);
             return Ok(boxesFromRepo);
         }
 

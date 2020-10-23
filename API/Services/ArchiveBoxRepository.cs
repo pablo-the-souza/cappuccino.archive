@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.ResourceParameters;
 
 namespace Archive.API.Services
 {
@@ -22,19 +23,33 @@ namespace Archive.API.Services
             return _context.ArchiveBoxes.ToList<ArchiveBox>();
         }
 
-        public IEnumerable<ArchiveBox> GetBoxes(string searchQuery)
+        public IEnumerable<ArchiveBox> GetBoxes(BoxesResourceParameters boxesResourceParameters)
         {
-            
+            if (boxesResourceParameters == null) 
+            {
+                throw new ArgumentNullException(nameof(boxesResourceParameters));
+            }
 
-            if(string.IsNullOrWhiteSpace(searchQuery)) 
+            if(string.IsNullOrWhiteSpace(boxesResourceParameters.searchByName) &&
+               string.IsNullOrWhiteSpace(boxesResourceParameters.searchByCode)) 
             {
                 return GetBoxes();
             }
 
-            var collection = _context.ArchiveBoxes as IQueryable<ArchiveBox>;
             //deferred execution
-            searchQuery = searchQuery.Trim();
-            collection = collection.Where(b => b.Name.Contains(searchQuery));
+            var collection = _context.ArchiveBoxes as IQueryable<ArchiveBox>;
+
+            if(!string.IsNullOrWhiteSpace(boxesResourceParameters.searchByName)) 
+            {
+                var searchByName = boxesResourceParameters.searchByName.Trim();
+                collection = collection.Where(b => b.Name.Contains(searchByName));
+            }
+
+            if(!string.IsNullOrWhiteSpace(boxesResourceParameters.searchByCode)) 
+            {
+                var searchByCode = boxesResourceParameters.searchByCode.Trim();
+                collection = collection.Where(b => b.Code.Contains(searchByCode));
+            }     
 
             return collection.ToList();
         }

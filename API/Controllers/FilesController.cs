@@ -1,6 +1,7 @@
 
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.ResourceParameters;
 using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,9 +23,9 @@ namespace Archivr.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetFiles(string searchQuery)
+        public IActionResult GetFiles([FromQuery] FilesResourceParameters filesResourceParameters)
         {
-            var filesFromRepo = _archiveFileRepository.GetFiles(searchQuery );
+            var filesFromRepo = _archiveFileRepository.GetFiles(filesResourceParameters);
             return Ok(filesFromRepo);
         }
 
