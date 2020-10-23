@@ -25,14 +25,21 @@ namespace CourseLibrary.API.Controllers
         public IActionResult GetBoxes()
         {
             var boxesFromRepo = _archiveBoxRepository.GetBoxes();
-            return new JsonResult(boxesFromRepo);
+            return Ok(boxesFromRepo);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetBoxById(Guid id)
         {
+            
             var boxFromRepo = _archiveBoxRepository.GetBox(id);
-            return new JsonResult(boxFromRepo);
+
+            if(boxFromRepo == null)
+            {
+                return NotFound();  
+            }
+            
+            return Ok(boxFromRepo);
         }
 
         // [HttpPost]

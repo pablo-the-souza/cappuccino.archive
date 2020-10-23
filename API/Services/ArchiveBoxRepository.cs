@@ -62,15 +62,15 @@ namespace Archive.API.Services
         //     _context.ArchiveBoxes.Add(archiveBox);
         // }
 
-        // public bool BoxExists(Guid archiveBoxId)
-        // {
-        //     if (archiveBoxId == Guid.Empty)
-        //     {
-        //         throw new ArgumentNullException(nameof(archiveBoxId));
-        //     }
+        public bool BoxExists(Guid boxId)
+        {
+            if (boxId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(boxId));
+            }
 
-        //     return _context.ArchiveBoxes.Any(a => a.Id == archiveBoxId);
-        // }
+            return _context.ArchiveBoxes.Any(a => a.Id == boxId);
+        }
 
         // public void DeleteBox(ArchiveBox archiveBox)
         // {

@@ -25,14 +25,20 @@ namespace CourseLibrary.API.Controllers
         public IActionResult GetFilees()
         {
             var FilesFromRepo = _archiveFileRepository.GetFiles();
-            return new JsonResult(FilesFromRepo);
+            return Ok(FilesFromRepo);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetFileById(Guid id)
         {
             var fileFromRepo = _archiveFileRepository.GetFile(id);
-            return new JsonResult(fileFromRepo);
+
+            if(fileFromRepo == null)
+            {
+                return NotFound();  
+            }
+
+            return Ok(fileFromRepo);
         }
 
         // [HttpPost]

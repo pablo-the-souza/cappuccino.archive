@@ -11,6 +11,7 @@ namespace Archive.API.Services
         // void AddFile(ArchiveFile archiveFile);
         // void UpdateFile(ArchiveFile archiveFile);
         // void DeleteFile(ArchiveFile archiveFile);
+        bool FileExists(Guid fileId);
         bool Save();
     }
 }

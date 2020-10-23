@@ -59,7 +59,15 @@ namespace Archive.API.Services
         //     // no code in this implementation
         // }
 
+        public bool FileExists(Guid fileId)
+        {
+            if (fileId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(fileId));
+            }
 
+            return _context.ArchiveBoxes.Any(a => a.Id == fileId);
+        }
 
         public bool Save()
         {

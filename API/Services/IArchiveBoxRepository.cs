@@ -7,11 +7,11 @@ namespace Archive.API.Services
     public interface IArchiveBoxRepository
     {   
         IEnumerable<ArchiveBox> GetBoxes(); 
-        ArchiveBox GetBox(Guid archiveBoxId);
+        ArchiveBox GetBox(Guid boxId);
         // void AddBox(ArchiveBox archiveBox);
         // void DeleteBox(ArchiveBox archiveBox);
         // void UpdateBox(ArchiveBox archiveBox);
-        // bool BoxExists(Guid archiveBoxId);
+        bool BoxExists(Guid boxId);
         bool Save();
     }
 }
