@@ -22,6 +22,23 @@ namespace Archive.API.Services
             return _context.ArchiveBoxes.ToList<ArchiveBox>();
         }
 
+        public IEnumerable<ArchiveBox> GetBoxes(string searchQuery)
+        {
+            var collection = _context.ArchiveBoxes as IQueryable<ArchiveBox>;
+
+            if(string.IsNullOrWhiteSpace(searchQuery)) 
+            {
+                return GetBoxes();
+            } else {
+
+            }
+
+            searchQuery = searchQuery.Trim();
+            collection = collection.Where(b => b.Name.Contains(searchQuery));
+
+            return collection.ToList();
+        }
+
         public ArchiveBox GetBox(Guid archiveBoxId)
         {
             if (archiveBoxId == Guid.Empty)

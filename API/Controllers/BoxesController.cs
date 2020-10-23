@@ -21,10 +21,10 @@ namespace CourseLibrary.API.Controllers
                 throw new ArgumentNullException(nameof(archiveBoxRepository));
         }
         
-        [HttpGet]
-        public IActionResult GetBoxes()
+        [HttpGet()]
+        public IActionResult GetBoxes(string searchQuery)
         {
-            var boxesFromRepo = _archiveBoxRepository.GetBoxes();
+            var boxesFromRepo = _archiveBoxRepository.GetBoxes(searchQuery);
             return Ok(boxesFromRepo);
         }
 
@@ -38,7 +38,7 @@ namespace CourseLibrary.API.Controllers
             {
                 return NotFound();  
             }
-            
+
             return Ok(boxFromRepo);
         }
 
