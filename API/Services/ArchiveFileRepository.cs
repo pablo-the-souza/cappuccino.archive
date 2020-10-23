@@ -19,14 +19,32 @@ namespace Archive.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-         public IEnumerable<ArchiveFile> GetFiles()
+        public IEnumerable<ArchiveFile> GetFiles()
         {
 
             return _context.ArchiveFiles
                 .OrderBy(f => f.Name).ToList();
         }
 
-         public ArchiveFile GetFile(Guid fileId)
+        public IEnumerable<ArchiveFile> GetFiles(string searchQuery)
+        {
+            var collection = _context.ArchiveFiles as IQueryable<ArchiveFile>;
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFiles();
+            }
+            else
+            {
+
+            }
+
+            searchQuery = searchQuery.Trim();
+            collection = collection.Where(b => b.Name.Contains(searchQuery));
+
+            return collection.ToList();
+        }
+        public ArchiveFile GetFile(Guid fileId)
         {
 
             if (fileId == Guid.Empty)

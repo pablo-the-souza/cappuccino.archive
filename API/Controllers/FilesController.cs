@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CourseLibrary.API.Controllers
+namespace Archivr.API.Controllers
 {
     [ApiController]
     [Route("api/files")]
@@ -21,11 +21,11 @@ namespace CourseLibrary.API.Controllers
                 throw new ArgumentNullException(nameof(archiveFileRepository));
         }
 
-        [HttpGet]
-        public IActionResult GetFilees()
+        [HttpGet()]
+        public IActionResult GetFiles(string searchQuery)
         {
-            var FilesFromRepo = _archiveFileRepository.GetFiles();
-            return Ok(FilesFromRepo);
+            var filesFromRepo = _archiveFileRepository.GetFiles(searchQuery );
+            return Ok(filesFromRepo);
         }
 
         [HttpGet("{id}")]
