@@ -26,6 +26,18 @@ namespace Archive.API.Services
                 .OrderBy(f => f.Name).ToList();
         }
 
+         public ArchiveFile GetFile(Guid fileId)
+        {
+
+            if (fileId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(fileId));
+            }
+
+            return _context.ArchiveFiles
+              .Where(c => c.Id == fileId).FirstOrDefault();
+        }
+
         // public void AddArchiveFile(ArchiveFile archiveFile)
         // {
 
@@ -40,18 +52,6 @@ namespace Archive.API.Services
         // public void DeleteArchiveFile(ArchiveFile archiveFile)
         // {
         //     _context.ArchiveFiles.Remove(archiveFile);
-        // }
-  
-        // public ArchiveFile GetArchiveFile(Guid ArchiveFileId)
-        // {
-
-        //     if (ArchiveFileId == Guid.Empty)
-        //     {
-        //         throw new ArgumentNullException(nameof(ArchiveFileId));
-        //     }
-
-        //     return _context.ArchiveFiles
-        //       .Where(c => c.Id == ArchiveFileId).FirstOrDefault();
         // }
 
         // public void UpdateArchiveFile(ArchiveFile archiveFile)

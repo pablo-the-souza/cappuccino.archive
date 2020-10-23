@@ -28,11 +28,12 @@ namespace CourseLibrary.API.Controllers
             return new JsonResult(boxesFromRepo);
         }
 
-        // [HttpGet("{id}", Name = "GetRecordById")]
-        // public ActionResult<Record> GetRecordById(int id)
-        // {
-        //     return _context.Records.Find(id);
-        // }
+        [HttpGet("{id}")]
+        public IActionResult GetBoxById(Guid id)
+        {
+            var boxFromRepo = _archiveBoxRepository.GetBox(id);
+            return new JsonResult(boxFromRepo);
+        }
 
         // [HttpPost]
         // public ActionResult<Record> AddRecord(Record record)

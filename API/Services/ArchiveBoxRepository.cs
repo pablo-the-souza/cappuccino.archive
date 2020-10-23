@@ -17,10 +17,22 @@ namespace Archive.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-public IEnumerable<ArchiveBox> GetBoxes()
+        public IEnumerable<ArchiveBox> GetBoxes()
         {
             return _context.ArchiveBoxes.ToList<ArchiveBox>();
         }
+
+        public ArchiveBox GetBox(Guid archiveBoxId)
+        {
+            if (archiveBoxId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(archiveBoxId));
+            }
+
+            return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
+        }
+
+
         // public IEnumerable<ArchiveBox> GetBoxes(IEnumerable<Guid> archiveBoxIds)
         // {
         //     if (archiveBoxIds == null)
@@ -69,7 +81,7 @@ public IEnumerable<ArchiveBox> GetBoxes()
 
         //     _context.ArchiveBoxes.Remove(archiveBox);
         // }
-        
+
         // public ArchiveBox GetBox(Guid archiveBoxId)
         // {
         //     if (archiveBoxId == Guid.Empty)
