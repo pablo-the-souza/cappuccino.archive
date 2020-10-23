@@ -13,7 +13,7 @@ namespace Archive.API.Entities
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public ICollection<ArchiveFile> ArchiveFile { get; set; }
+        public ICollection<ArchiveFile> ArchiveFiles { get; set; }
             = new List<ArchiveFile>();
     }
 }

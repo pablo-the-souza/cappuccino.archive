@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using Archive.API.Entities;
 
-namespace CourseLibrary.API.Services
+namespace Archive.API.Services
 {
-    public interface ICourseLibraryRepository
+    public interface IArchiveFileRepository
     {    
-        IEnumerable<Course> GetCourses(Guid authorId);
-        Course GetCourse(Guid authorId, Guid courseId);
-        void AddCourse(Guid authorId, ArchiveFile archiveFile);
-        void UpdateCourse(ArchiveFile archiveFile);
-        void DeleteCourse(ArchiveFile archiveFile);
+        IEnumerable<ArchiveFile> GetArchiveFiles(Guid authorId);
+        // ArchiveFile GetFile(Guid archiveFileId);
+        // void AddFile(ArchiveFile archiveFile);
+        // void UpdateFile(ArchiveFile archiveFile);
+        // void DeleteFile(ArchiveFile archiveFile);
         bool Save();
     }
 }

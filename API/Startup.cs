@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using API.Data;
+using Archive.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace API
 {
@@ -27,9 +22,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddServices(IArchiveBoxRepository, ArchiveBoxRepository)
-            services.AddDbContext<DataContext>(x =>
-                x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IArchiveBoxRepository, ArchiveBoxRepository>();
+            services.AddScoped<IArchiveFileRepository, ArchiveFileRepository>();
+
+            services.AddDbContext<ArchiveContext>(options =>
+            {
+                options.UseSqlServer(
+                    @"Server=localhost;Database=dbArchive;User ID=sa;Password=Blah123456;");
+            }); 
 
             services.AddCors(opt =>
             {
