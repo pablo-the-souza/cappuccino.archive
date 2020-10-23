@@ -1,7 +1,9 @@
 
 using API.Data;
 using Archive.API.Entities;
+using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,17 +13,19 @@ namespace CourseLibrary.API.Controllers
     [Route("api/files")]
     public class FilesController : ControllerBase
     {
-        private readonly ArchiveContext _context;
+        private readonly IArchiveFileRepository _archiveFileRepository;
 
-        public FilesController(ArchiveContext context)
+        public FilesController(IArchiveFileRepository archiveFileRepository)
         {
-            _context = context;
+            _archiveFileRepository = archiveFileRepository ??
+                throw new ArgumentNullException(nameof(archiveFileRepository));
         }
-        
+
         [HttpGet]
-        public ActionResult<IEnumerable<ArchiveFile>> GetFiles()
+        public IActionResult GetFilees()
         {
-            return _context.ArchiveFiles.ToList();
+            var FilesFromRepo = _archiveFileRepository.GetFiles();
+            return new JsonResult(FilesFromRepo);
         }
 
         // [HttpGet("{id}", Name = "GetRecordById")]
@@ -52,7 +56,7 @@ namespace CourseLibrary.API.Controllers
         // public ActionResult<Record> UpdateRecord(int id, [FromBody] Record record)
         // {
         //     var recordForUpdate = _context.Records.FirstOrDefault(r => r.Id == id);
-            
+
         //     recordForUpdate.Date = record.Date; 
         //     recordForUpdate.Name = record.Name; 
         //     recordForUpdate.Value = record.Value;

@@ -6,7 +6,7 @@ namespace Archive.API.Services
 {
     public interface IArchiveFileRepository
     {    
-        IEnumerable<ArchiveFile> GetArchiveFiles(Guid authorId);
+        IEnumerable<ArchiveFile> GetFiles();
         // ArchiveFile GetFile(Guid archiveFileId);
         // void AddFile(ArchiveFile archiveFile);
         // void UpdateFile(ArchiveFile archiveFile);

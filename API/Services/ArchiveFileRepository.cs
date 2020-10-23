@@ -19,15 +19,11 @@ namespace Archive.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-         public IEnumerable<ArchiveFile> GetArchiveFiles(Guid authorId)
+         public IEnumerable<ArchiveFile> GetFiles()
         {
-            if (authorId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(authorId));
-            }
 
             return _context.ArchiveFiles
-                        .OrderBy(f => f.Name).ToList();
+                .OrderBy(f => f.Name).ToList();
         }
 
         // public void AddArchiveFile(ArchiveFile archiveFile)
