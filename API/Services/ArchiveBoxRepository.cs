@@ -24,15 +24,15 @@ namespace Archive.API.Services
 
         public IEnumerable<ArchiveBox> GetBoxes(string searchQuery)
         {
-            var collection = _context.ArchiveBoxes as IQueryable<ArchiveBox>;
+            
 
             if(string.IsNullOrWhiteSpace(searchQuery)) 
             {
                 return GetBoxes();
-            } else {
-
             }
 
+            var collection = _context.ArchiveBoxes as IQueryable<ArchiveBox>;
+            //deferred execution
             searchQuery = searchQuery.Trim();
             collection = collection.Where(b => b.Name.Contains(searchQuery));
 

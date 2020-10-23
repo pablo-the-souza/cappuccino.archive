@@ -28,17 +28,11 @@ namespace Archive.API.Services
 
         public IEnumerable<ArchiveFile> GetFiles(string searchQuery)
         {
-            var collection = _context.ArchiveFiles as IQueryable<ArchiveFile>;
-
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFiles();
             }
-            else
-            {
-
-            }
-
+            var collection = _context.ArchiveFiles as IQueryable<ArchiveFile>;
             searchQuery = searchQuery.Trim();
             collection = collection.Where(b => b.Name.Contains(searchQuery));
 
