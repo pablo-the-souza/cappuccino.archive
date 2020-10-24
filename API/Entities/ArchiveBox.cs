@@ -6,7 +6,6 @@ namespace Archive.API.Entities
 {
     public class ArchiveBox
     {
-        [Key]
         public Guid Id { get; set; }
 
         [Required]

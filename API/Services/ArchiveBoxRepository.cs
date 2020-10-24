@@ -64,6 +64,20 @@ namespace Archive.API.Services
             return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
         }
 
+        public void AddBox(ArchiveBox archiveBox)
+        {
+            if (archiveBox == null)
+            {
+                throw new ArgumentNullException(nameof(archiveBox));
+            }
+
+            // the repository fills the id (instead of using identity columns)
+            archiveBox.Id = Guid.NewGuid();
+
+            _context.ArchiveBoxes.Add(archiveBox);
+        }
+
+
 
         // public IEnumerable<ArchiveBox> GetBoxes(IEnumerable<Guid> archiveBoxIds)
         // {
@@ -76,24 +90,7 @@ namespace Archive.API.Services
         //         .OrderBy(a => a.Name)
         //         .ToList();
         // }
-        // public void AddBox(ArchiveBox archiveBox)
-        // {
-        //     if (archiveBox == null)
-        //     {
-        //         throw new ArgumentNullException(nameof(archiveBox));
-        //     }
-
-        //     // the repository fills the id (instead of using identity columns)
-        //     archiveBox.Id = Guid.NewGuid();
-
-        //     foreach (var course in archiveBox.ArchiveFiles)
-        //     {
-        //         course.Id = Guid.NewGuid();
-        //     }
-
-        //     _context.ArchiveBoxes.Add(archiveBox);
-        // }
-
+        
         public bool BoxExists(Guid boxId)
         {
             if (boxId == Guid.Empty)
@@ -104,15 +101,15 @@ namespace Archive.API.Services
             return _context.ArchiveBoxes.Any(a => a.Id == boxId);
         }
 
-        // public void DeleteBox(ArchiveBox archiveBox)
-        // {
-        //     if (archiveBox == null)
-        //     {
-        //         throw new ArgumentNullException(nameof(archiveBox));
-        //     }
+        public void DeleteBox(ArchiveBox archiveBox)
+        {
+            if (archiveBox == null)
+            {
+                throw new ArgumentNullException(nameof(archiveBox));
+            }
 
-        //     _context.ArchiveBoxes.Remove(archiveBox);
-        // }
+            _context.ArchiveBoxes.Remove(archiveBox);
+        }
 
         // public ArchiveBox GetBox(Guid archiveBoxId)
         // {
@@ -124,10 +121,10 @@ namespace Archive.API.Services
         //     return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
         // }
 
-        // public void UpdateBox(ArchiveBox archiveBox)
-        // {
-        //     // no code in this implementation
-        // }
+        public void UpdateBox(ArchiveBox archiveBox)
+        {
+            // no code in this implementation
+        }
 
         public bool Save()
         {

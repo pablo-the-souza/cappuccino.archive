@@ -10,9 +10,9 @@ namespace Archive.API.Services
         IEnumerable<ArchiveBox> GetBoxes(); 
         IEnumerable<ArchiveBox> GetBoxes(BoxesResourceParameters boxesResourceParameters); 
         ArchiveBox GetBox(Guid boxId);
-        // void AddBox(ArchiveBox archiveBox);
-        // void DeleteBox(ArchiveBox archiveBox);
-        // void UpdateBox(ArchiveBox archiveBox);
+        void AddBox(ArchiveBox archiveBox);
+        void DeleteBox(ArchiveBox archiveBox);
+        void UpdateBox(ArchiveBox archiveBox);
         bool BoxExists(Guid boxId);
         bool Save();
     }

@@ -29,7 +29,7 @@ namespace CourseLibrary.API.Controllers
             return Ok(boxesFromRepo);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name=  "GetBox")]
         public IActionResult GetBoxById(Guid id)
         {
             
@@ -43,39 +43,49 @@ namespace CourseLibrary.API.Controllers
             return Ok(boxFromRepo);
         }
 
-        // [HttpPost]
-        // public ActionResult<Record> AddRecord(Record record)
-        // {
-        //     _context.Records.Add(record);
-        //     _context.SaveChanges();
+        [HttpPost]
+        public ActionResult<ArchiveBox> AddBox(ArchiveBox archiveBox)
+        {
+           if(archiveBox == null) 
+           {
+               return BadRequest();
+           }
 
-        //     return CreatedAtAction("GetRecordById", new { id = record.Id }, record);
-        // }
+            _archiveBoxRepository.AddBox(archiveBox);
+            _archiveBoxRepository.Save();
+
+            return CreatedAtRoute("GetBox", new {  id = archiveBox.Id }, archiveBox);
+        }
+
+        [HttpPut("{boxId}")]
+        public ActionResult<ArchiveBox> UpdateBox(Guid boxId, ArchiveBox archiveBox)
+        {
+            var boxFromRepo = _archiveBoxRepository.GetBox(boxId);
+
+            if (boxFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            boxFromRepo.Name = archiveBox.Name; 
+            boxFromRepo.Code = archiveBox.Code; 
+
+            _archiveBoxRepository.Save();
+
+            return NoContent();
+            
+        }
 
         // [HttpDelete("{id}")]
-        // public ActionResult<Record> DeleteRecord(int id)
+        // public ActionResult<box> Deletebox(int id)
         // {
-        //     var recordForDeletion = _context.Records.FirstOrDefault(r => r.Id == id);
-        //     _context.Records.Remove(recordForDeletion);
+        //     var boxForDeletion = _context.boxs.FirstOrDefault(r => r.Id == id);
+        //     _context.boxs.Remove(boxForDeletion);
         //     _context.SaveChanges();
         //     return Ok();
         // }
 
-        // [HttpPut("{id}")]
-        // public ActionResult<Record> UpdateRecord(int id, [FromBody] Record record)
-        // {
-        //     var recordForUpdate = _context.Records.FirstOrDefault(r => r.Id == id);
-            
-        //     recordForUpdate.Date = record.Date; 
-        //     recordForUpdate.Name = record.Name; 
-        //     recordForUpdate.Value = record.Value;
-        //     recordForUpdate.Category = record.Category; 
-        //     recordForUpdate.Type = record.Date; 
-
-        //     _context.SaveChanges();
-
-        //     return Ok();
-        // }
+        
     }
 }
 
