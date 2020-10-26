@@ -1,9 +1,11 @@
 
+using API.Data.Helpers;
 using Archive.API.Entities;
 using Archive.API.ResourceParameters;
 using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Json;
 
 namespace CourseLibrary.API.Controllers
 {
@@ -18,23 +20,44 @@ namespace CourseLibrary.API.Controllers
             _archiveBoxRepository = archiveBoxRepository ??
                 throw new ArgumentNullException(nameof(archiveBoxRepository));
         }
-        
-        [HttpGet()]
+
+        [HttpGet(Name = "GetBoxes")]
         public IActionResult GetBoxes([FromQuery] BoxesResourceParameters boxesResourceParameters)
         {
             var boxesFromRepo = _archiveBoxRepository.GetBoxes(boxesResourceParameters);
+
+            var previousPageLink = boxesFromRepo.HasPrevious ? 
+                CreateBoxesResourceUri(boxesResourceParameters, ResourceUriType.Previous): null; 
+
+            var nextPageLink = boxesFromRepo.HasNext ? 
+                CreateBoxesResourceUri(boxesResourceParameters, ResourceUriType.Next): null; 
+
+            var paginationMetadata  = new 
+            {
+                totalCount = boxesFromRepo.TotalCount,
+                pageSize = boxesFromRepo.PageSize,
+                currentPage = boxesFromRepo.CurrentPage,
+                totalPages = boxesFromRepo.TotalPages,
+                previousPageLink,
+                nextPageLink
+            }; 
+            
+            //Add Response Header to Response
+            Response.Headers.Add("X-Pagination", 
+                JsonSerializer.Serialize(paginationMetadata));
+
             return Ok(boxesFromRepo);
         }
 
-        [HttpGet("{id}", Name=  "GetBox")]
+        [HttpGet("{id}", Name = "GetBox")]
         public IActionResult GetBoxById(Guid id)
         {
-            
+
             var boxFromRepo = _archiveBoxRepository.GetBox(id);
 
-            if(boxFromRepo == null)
+            if (boxFromRepo == null)
             {
-                return NotFound();  
+                return NotFound();
             }
 
             return Ok(boxFromRepo);
@@ -43,15 +66,15 @@ namespace CourseLibrary.API.Controllers
         [HttpPost]
         public ActionResult<ArchiveBox> AddBox(ArchiveBox archiveBox)
         {
-           if(archiveBox == null) 
-           {
-               return BadRequest();
-           }
+            if (archiveBox == null)
+            {
+                return BadRequest();
+            }
 
             _archiveBoxRepository.AddBox(archiveBox);
             _archiveBoxRepository.Save();
 
-            return CreatedAtRoute("GetBox", new {  id = archiveBox.Id }, archiveBox);
+            return CreatedAtRoute("GetBox", new { id = archiveBox.Id }, archiveBox);
         }
 
         [HttpPut("{boxId}")]
@@ -64,13 +87,13 @@ namespace CourseLibrary.API.Controllers
                 return NotFound();
             }
 
-            boxFromRepo.Name = archiveBox.Name; 
-            boxFromRepo.Code = archiveBox.Code; 
+            boxFromRepo.Name = archiveBox.Name;
+            boxFromRepo.Code = archiveBox.Code;
 
             _archiveBoxRepository.Save();
 
             return NoContent();
-            
+
         }
 
         [HttpDelete("{id}")]
@@ -78,15 +101,54 @@ namespace CourseLibrary.API.Controllers
         {
             var boxFromRepo = _archiveBoxRepository.GetBox(id);
 
-            if(boxFromRepo == null)
+            if (boxFromRepo == null)
             {
-                return NotFound();  
+                return NotFound();
             }
 
             _archiveBoxRepository.DeleteBox(boxFromRepo);
             _archiveBoxRepository.Save();
 
             return NoContent();
+        }
+
+        private string CreateBoxesResourceUri(
+            BoxesResourceParameters boxesResourceParameters,
+            ResourceUriType type
+        )
+        {
+            switch (type)
+            {
+                case ResourceUriType.Previous:
+                    return Url.Link("GetBoxes",
+                    new
+                    {
+                        pageNumber = boxesResourceParameters.PageNumber - 1,
+                        pageSize = boxesResourceParameters.PageSize,
+                        searchByName = boxesResourceParameters.searchByName,
+                        searchByCode = boxesResourceParameters.searchByCode,
+                    });
+
+                case ResourceUriType.Next:
+                    return Url.Link("GetBoxes",
+                    new
+                    {
+                        pageNumber = boxesResourceParameters.PageNumber + 1,
+                        pageSize = boxesResourceParameters.PageSize,
+                        searchByName = boxesResourceParameters.searchByName,
+                        searchByCode = boxesResourceParameters.searchByCode,
+                    });
+
+                default:
+                    return Url.Link("GetBoxes",
+                    new
+                    {
+                        pageNumber = boxesResourceParameters.PageNumber - 1,
+                        pageSize = boxesResourceParameters.PageSize,
+                        searchByName = boxesResourceParameters.searchByName,
+                        searchByCode = boxesResourceParameters.searchByCode,
+                    });
+            }
         }
     }
 }

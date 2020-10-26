@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using API.Data;
+using API.Data.Helpers;
 using Archive.API.Entities;
 using Archive.API.ResourceParameters;
 
@@ -23,17 +24,11 @@ namespace Archive.API.Services
             return _context.ArchiveBoxes.ToList<ArchiveBox>();
         }
 
-        public IEnumerable<ArchiveBox> GetBoxes(BoxesResourceParameters boxesResourceParameters)
+        public PagedList<ArchiveBox> GetBoxes(BoxesResourceParameters boxesResourceParameters)
         {
             if (boxesResourceParameters == null) 
             {
                 throw new ArgumentNullException(nameof(boxesResourceParameters));
-            }
-
-            if(string.IsNullOrWhiteSpace(boxesResourceParameters.searchByName) &&
-               string.IsNullOrWhiteSpace(boxesResourceParameters.searchByCode)) 
-            {
-                return GetBoxes();
             }
 
             //deferred execution
@@ -51,7 +46,9 @@ namespace Archive.API.Services
                 collection = collection.Where(b => b.Code.Contains(searchByCode));
             }     
 
-            return collection.ToList();
+            return PagedList<ArchiveBox>.Create(collection,
+                boxesResourceParameters.PageNumber,
+                boxesResourceParameters.PageSize); 
         }
 
         public ArchiveBox GetBox(Guid archiveBoxId)
@@ -110,16 +107,6 @@ namespace Archive.API.Services
 
             _context.ArchiveBoxes.Remove(archiveBox);
         }
-
-        // public ArchiveBox GetBox(Guid archiveBoxId)
-        // {
-        //     if (archiveBoxId == Guid.Empty)
-        //     {
-        //         throw new ArgumentNullException(nameof(archiveBoxId));
-        //     }
-
-        //     return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
-        // }
 
         public void UpdateBox(ArchiveBox archiveBox)
         {
