@@ -1,12 +1,9 @@
 
-using API.Data;
 using Archive.API.Entities;
 using Archive.API.ResourceParameters;
 using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CourseLibrary.API.Controllers
 {
@@ -76,16 +73,21 @@ namespace CourseLibrary.API.Controllers
             
         }
 
-        // [HttpDelete("{id}")]
-        // public ActionResult<box> Deletebox(int id)
-        // {
-        //     var boxForDeletion = _context.boxs.FirstOrDefault(r => r.Id == id);
-        //     _context.boxs.Remove(boxForDeletion);
-        //     _context.SaveChanges();
-        //     return Ok();
-        // }
+        [HttpDelete("{id}")]
+        public ActionResult<ArchiveBox> Deletebox(Guid id)
+        {
+            var boxFromRepo = _archiveBoxRepository.GetBox(id);
 
-        
+            if(boxFromRepo == null)
+            {
+                return NotFound();  
+            }
+
+            _archiveBoxRepository.DeleteBox(boxFromRepo);
+            _archiveBoxRepository.Save();
+
+            return NoContent();
+        }
     }
 }
 
