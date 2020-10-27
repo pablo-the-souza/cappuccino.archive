@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using API.Data;
 using API.Data.Helpers;
 using Archive.API.Entities;
@@ -45,6 +47,27 @@ namespace Archive.API.Services
                 var searchByCode = boxesResourceParameters.searchByCode.Trim();
                 collection = collection.Where(b => b.Code.Contains(searchByCode));
             }     
+           
+            
+
+            if (!string.IsNullOrWhiteSpace(boxesResourceParameters.OrderBy))
+            {
+                switch (boxesResourceParameters.OrderBy)
+                {
+                    case "name":
+                        collection = collection.OrderBy(b => b.Name);
+                        break;
+                    case "code":
+                        collection = collection.OrderBy(b => b.Code);
+                        break; 
+                    case "code desc":
+                        collection = collection.OrderByDescending(b => b.Code);
+                        break; 
+                    default:
+                        throw new ArgumentNullException(nameof(boxesResourceParameters.OrderBy));
+                }
+            }
+
 
             return PagedList<ArchiveBox>.Create(collection,
                 boxesResourceParameters.PageNumber,

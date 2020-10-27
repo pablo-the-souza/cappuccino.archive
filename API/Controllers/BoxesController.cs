@@ -45,6 +45,7 @@ namespace CourseLibrary.API.Controllers
             //Add Response Header to Response
             Response.Headers.Add("X-Pagination", 
                 JsonSerializer.Serialize(paginationMetadata));
+                
 
             return Ok(boxesFromRepo);
         }
