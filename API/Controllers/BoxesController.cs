@@ -6,6 +6,7 @@ using Archive.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace CourseLibrary.API.Controllers
 {
@@ -22,9 +23,9 @@ namespace CourseLibrary.API.Controllers
         }
 
         [HttpGet(Name = "GetBoxes")]
-        public IActionResult GetBoxes([FromQuery] BoxesResourceParameters boxesResourceParameters)
+        public async Task<IActionResult> GetBoxes([FromQuery] BoxesResourceParameters boxesResourceParameters)
         {
-            var boxesFromRepo = _archiveBoxRepository.GetBoxes(boxesResourceParameters);
+            var boxesFromRepo = await _archiveBoxRepository.GetBoxes(boxesResourceParameters);
 
             var previousPageLink = boxesFromRepo.HasPrevious ? 
                 CreateBoxesResourceUri(boxesResourceParameters, ResourceUriType.Previous): null; 
@@ -79,9 +80,9 @@ namespace CourseLibrary.API.Controllers
         }
 
         [HttpPut("{boxId}")]
-        public ActionResult<ArchiveBox> UpdateBox(Guid boxId, ArchiveBox archiveBox)
+        public async Task<ActionResult<ArchiveBox>> UpdateBox(Guid boxId, ArchiveBox archiveBox)
         {
-            var boxFromRepo = _archiveBoxRepository.GetBox(boxId);
+            var boxFromRepo = await _archiveBoxRepository.GetBox(boxId);
 
             if (boxFromRepo == null)
             {
@@ -98,9 +99,9 @@ namespace CourseLibrary.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<ArchiveBox> Deletebox(Guid id)
+        public async Task<ActionResult<ArchiveBox>> Deletebox(Guid id)
         {
-            var boxFromRepo = _archiveBoxRepository.GetBox(id);
+            var boxFromRepo = await _archiveBoxRepository.GetBox(id);
 
             if (boxFromRepo == null)
             {

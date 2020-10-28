@@ -5,28 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using API.Data;
 using API.Data.Helpers;
 using Archive.API.Entities;
 using Archive.API.ResourceParameters;
+using Microsoft.EntityFrameworkCore;
 
 namespace Archive.API.Services
 {
     public class ArchiveBoxRepository : IArchiveBoxRepository, IDisposable
     {
-        private readonly ArchiveContext _context;
+        private ArchiveContext _context;
 
         public ArchiveBoxRepository(ArchiveContext context )
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<ArchiveBox> GetBoxes()
+        public async Task<IEnumerable<ArchiveBox>> GetBoxes()
         {
-            return _context.ArchiveBoxes.ToList<ArchiveBox>();
+            return await _context.ArchiveBoxes.ToListAsync<ArchiveBox>();
         }
 
-        public PagedList<ArchiveBox> GetBoxes(BoxesResourceParameters boxesResourceParameters)
+        public Task<PagedList<ArchiveBox>> GetBoxes(BoxesResourceParameters boxesResourceParameters)
         {
             if (boxesResourceParameters == null) 
             {
@@ -74,14 +76,14 @@ namespace Archive.API.Services
                 boxesResourceParameters.PageSize); 
         }
 
-        public ArchiveBox GetBox(Guid archiveBoxId)
+        public async Task<ArchiveBox> GetBox(Guid archiveBoxId)
         {
             if (archiveBoxId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(archiveBoxId));
             }
 
-            return _context.ArchiveBoxes.FirstOrDefault(a => a.Id == archiveBoxId);
+            return await _context.ArchiveBoxes.FirstOrDefaultAsync(a => a.Id == archiveBoxId);
         }
 
         public void AddBox(ArchiveBox archiveBox)
@@ -151,7 +153,11 @@ namespace Archive.API.Services
         {
             if (disposing)
             {
-               // dispose resources when needed
+               if (_context != null) 
+               {
+                   _context.Dispose();
+                   _context = null; 
+               }
             }
         }
     }
