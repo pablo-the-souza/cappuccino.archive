@@ -1,0 +1,80 @@
+import { Injectable } from '@angular/core';
+import { File } from '../models/file.model';
+import { Box } from '../models/box.model';
+
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { MatTableDataSource } from '@angular/material/table';
+import { Observable, Subscription } from 'rxjs';
+
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ArchiveService {
+  fileFormData: File;
+  boxFormData: Box; 
+  
+  ELEMENT_DATA: File[] = []
+  dataSource = new MatTableDataSource<File>(this.ELEMENT_DATA);
+
+  readonly rootURL = 'https://localhost:5001/api'; 
+
+  private fbSubs: Subscription[] = [];
+
+  constructor(private http: HttpClient) { }
+
+  postFile() {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    return this.http.post(this.rootURL + '/files', this.fileFormData, httpOptions)
+  }
+
+  putFileDetail() {
+    return this.http.put(
+      this.rootURL + '/files/' + this.fileFormData.id,
+      this.fileFormData)
+  }
+
+  deleteFileDetail(id) {
+    return this.http.delete(
+      this.rootURL + '/files/' + id,
+    )
+  }
+
+  public getFiles() {
+    return this.http.get(this.rootURL + '/files').toPromise()
+      .then(files => this.dataSource.data = files as File[])
+  }
+
+  public getFilesForForm() {
+    return this.http.get<any>(this.rootURL + '/files') 
+  }
+
+  public getBoxes() {
+    return this.http.get<any>(this.rootURL + '/boxes')
+  }
+
+  postBox() {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    return this.http.post(this.rootURL + '/boxes', this.boxFormData, httpOptions)
+  }
+
+  cancelSubscriptions() {
+    this.fbSubs.forEach(sub => sub.unsubscribe());
+  }
+
+}
+// ngOnInit(): void {
+//   forkJoin([this.data.getUsers(), this.otherData.getUnitAssignments()])
+//       .subscribe(result => {
+//           this.firstRequestResult = result[0];
+//           this.secondRequestResult = result[1];
+//           //building your dataSource here
+
+//       });
+// }

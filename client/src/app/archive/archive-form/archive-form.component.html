@@ -1,0 +1,170 @@
+
+<mat-card class="budget-form" color="primary">
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" >
+      <mat-form-field *ngIf="!isAddingCategory" appearance="fill">
+        <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="selectedOption" (selectionChange) = updateCategory(event)>
+          <mat-option  *ngFor="let category of categories | async " [value]="category.id" >
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+  
+    <form 
+    fxLayout="row" 
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    #form="ngForm" 
+    autocomplete="off" 
+    (submit)="onSubmit(form)">
+      <input type="hidden" name="id" [value]="service.formData.id">
+    <!-- DATE-PICKER -->
+      <mat-form-field>
+        <input 
+          matInput 
+          name="date"
+          #date="ngModel"
+          [(ngModel)]="service.formData.date"
+          placeholder="Date" 
+          [matDatepicker]="picker"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <!-- NAME -->
+    
+      <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input 
+          matInput
+          name="name" 
+          #name="ngModel" 
+          [(ngModel)]="service.formData.name" 
+          class="form-control" 
+          placeholder="name"
+          required>
+      </mat-form-field>
+    
+      <!-- VALUE -->
+      <mat-form-field appearance="fill">
+          <mat-label>Value</mat-label>
+          <input 
+          matInput
+          name="value" 
+          #value="ngModel" 
+          [(ngModel)]="service.formData.value" 
+          class="form-control" 
+          placeholder="Value"
+          required>
+      </mat-form-field>
+      
+      <!-- <div>
+        <mat-form-field *ngIf="!isAddingCategory" appearance="fill">
+          <mat-label>Category</mat-label>
+            <mat-select name="categoryId" ngModel [(ngModel)]="service.formData.categoryId" [(value)]="selectedValue">
+            <mat-option  *ngFor="let record of records | async " [value]="record.category.name" >
+              {{ record.category.name }} - 
+              {{ record.category.id }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    
+      <!-- HIDDEN CATEGORY -->
+      
+        
+          <input 
+          type=hidden
+          name="categoryId" 
+          #categoryId="ngModel" 
+          [(ngModel)]="service.formData.categoryId" 
+          class="form-control" 
+          placeholder=""
+          required
+          >
+     
+    
+    
+      
+    
+    
+    <!-- TYPE -->
+      
+    
+      <mat-form-field appearance="fill">
+          <mat-label>Type</mat-label>
+          <input 
+          matInput
+          name="type" 
+          #type="ngModel" 
+          [(ngModel)]="service.formData.type" 
+          class="form-control" 
+          placeholder="Type"
+          required>
+      </mat-form-field>
+    
+      <!-- BUTTON -->
+    
+     
+          <button mat-raised-button color="primary" type="submit">Submit</button>
+  
+    
+    </form>
+  
+  </div>
+  
+  
+  
+  
+  
+  <!-- ADD CATEGORY FORM -->
+  
+  <form 
+  *ngIf="!isAddingCategory"
+  fxLayout="row" 
+  fxLayoutAlign="center center"
+  fxLayoutGap="10px"
+  #form="ngForm" 
+  autocomplete="off" >
+  <mat-label >Can't find your category?</mat-label>
+  <div class="form-group">
+    <button mat-raised-button color="primary" (click)="changeIsAddingCategory()">Add New Category</button>
+  </div>
+  
+  </form>
+  
+  <!-- ADD CATEGORY FORM 2 -->
+  
+  <form *ngIf="isAddingCategory"
+  fxLayout="row" 
+  fxLayoutAlign="center center"
+  fxLayoutGap="10px"
+  #categoryForm="ngForm" 
+  autocomplete="off" 
+  (submit)="insertCategory(categoryForm)">
+  
+  
+    <mat-form-field  appearance="fill">
+      <mat-label>Add Category</mat-label>
+      <input 
+      matInput
+      name="name"
+      #name="ngModel"
+      [(ngModel)]="service.categoryFormData.name" 
+      class="form-control" 
+      placeholder="Category"
+      required
+      >
+  
+  </mat-form-field>
+  
+  <div class="form-group">
+    <button mat-raised-button color="primary" type="submit">Add New Category</button>
+  </div>
+  
+  </form>
+  
+  </mat-card>
