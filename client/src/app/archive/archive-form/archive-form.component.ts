@@ -34,7 +34,7 @@ export class ArchiveFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    if (this.service.boxFormData.id == "")
+    if (this.service.fileFormData.id == "")
       this.insertFile(form)
     else 
       this.updateFile(form)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Archivr.API.Controllers
 {
@@ -23,16 +24,16 @@ namespace Archivr.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetFiles([FromQuery] FilesResourceParameters filesResourceParameters)
+        public async Task<IActionResult> GetFiles()
         {
-            var filesFromRepo = _archiveFileRepository.GetFiles(filesResourceParameters);
+            var filesFromRepo = await _archiveFileRepository.GetFilesAsync();
             return Ok(filesFromRepo);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetFileById(Guid id)
+        [HttpGet("{id}", Name = "GetFile")]
+        public async Task<IActionResult> GetFileById(Guid id)
         {
-            var fileFromRepo = _archiveFileRepository.GetFile(id);
+            var fileFromRepo = await _archiveFileRepository.GetFileAsync(id);
 
             if(fileFromRepo == null)
             {
@@ -42,34 +43,35 @@ namespace Archivr.API.Controllers
             return Ok(fileFromRepo);
         }
 
-        // [HttpPost]
-        // public ActionResult<Record> AddRecord(Record record)
-        // {
-        //     _context.Records.Add(record);
-        //     _context.SaveChanges();
+        [HttpPost]
+        public async Task<ActionResult> AddFile(ArchiveFile file)
+        {
+            _archiveFileRepository.AddFile(file);
 
-        //     return CreatedAtAction("GetRecordById", new { id = record.Id }, record);
-        // }
+            await _archiveFileRepository.SaveChangesAsync();
+
+            return CreatedAtRoute("GetFile", new { id = file.Id }, file);
+        }
 
         // [HttpDelete("{id}")]
-        // public ActionResult<Record> DeleteRecord(int id)
+        // public ActionResult<file> Deletefile(int id)
         // {
-        //     var recordForDeletion = _context.Records.FirstOrDefault(r => r.Id == id);
-        //     _context.Records.Remove(recordForDeletion);
+        //     var fileForDeletion = _context.files.FirstOrDefault(r => r.Id == id);
+        //     _context.files.Remove(fileForDeletion);
         //     _context.SaveChanges();
         //     return Ok();
         // }
 
         // [HttpPut("{id}")]
-        // public ActionResult<Record> UpdateRecord(int id, [FromBody] Record record)
+        // public ActionResult<file> Updatefile(int id, [FromBody] file file)
         // {
-        //     var recordForUpdate = _context.Records.FirstOrDefault(r => r.Id == id);
+        //     var fileForUpdate = _context.files.FirstOrDefault(r => r.Id == id);
 
-        //     recordForUpdate.Date = record.Date; 
-        //     recordForUpdate.Name = record.Name; 
-        //     recordForUpdate.Value = record.Value;
-        //     recordForUpdate.Category = record.Category; 
-        //     recordForUpdate.Type = record.Date; 
+        //     fileForUpdate.Date = file.Date; 
+        //     fileForUpdate.Name = file.Name; 
+        //     fileForUpdate.Value = file.Value;
+        //     fileForUpdate.Category = file.Category; 
+        //     fileForUpdate.Type = file.Date; 
 
         //     _context.SaveChanges();
 

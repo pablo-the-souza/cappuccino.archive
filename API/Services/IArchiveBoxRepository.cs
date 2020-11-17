@@ -9,13 +9,13 @@ namespace Archive.API.Services
 {
     public interface IArchiveBoxRepository
     {   
-        Task<IEnumerable<ArchiveBox>> GetBoxes(); 
-        Task<PagedList<ArchiveBox>> GetBoxes(BoxesResourceParameters boxesResourceParameters); 
-        Task<ArchiveBox> GetBox(Guid boxId);
+        Task<IEnumerable<ArchiveBox>> GetBoxesAsync(); 
+        Task<PagedList<ArchiveBox>> GetBoxesAsync(BoxesResourceParameters boxesResourceParameters); 
+        Task<ArchiveBox> GetBoxAsync(Guid Id);
         void AddBox(ArchiveBox archiveBox);
         void DeleteBox(ArchiveBox archiveBox);
         void UpdateBox(ArchiveBox archiveBox);
         bool BoxExists(Guid boxId);
-        bool Save();
+        Task <bool> SaveChangesAsync();
     }
 }

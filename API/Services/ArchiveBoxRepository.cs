@@ -23,12 +23,12 @@ namespace Archive.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<ArchiveBox>> GetBoxes()
+        public async Task<IEnumerable<ArchiveBox>> GetBoxesAsync()
         {
             return await _context.ArchiveBoxes.ToListAsync<ArchiveBox>();
         }
 
-        public Task<PagedList<ArchiveBox>> GetBoxes(BoxesResourceParameters boxesResourceParameters)
+        public Task<PagedList<ArchiveBox>> GetBoxesAsync(BoxesResourceParameters boxesResourceParameters)
         {
             if (boxesResourceParameters == null) 
             {
@@ -76,7 +76,7 @@ namespace Archive.API.Services
                 boxesResourceParameters.PageSize); 
         }
 
-        public async Task<ArchiveBox> GetBox(Guid archiveBoxId)
+        public async Task<ArchiveBox> GetBoxAsync(Guid archiveBoxId)
         {
             if (archiveBoxId == Guid.Empty)
             {
@@ -138,9 +138,9 @@ namespace Archive.API.Services
             // no code in this implementation
         }
 
-        public bool Save()
+        public async Task<bool> SaveChangesAsync()
         {
-            return (_context.SaveChanges() >= 0);
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void Dispose()

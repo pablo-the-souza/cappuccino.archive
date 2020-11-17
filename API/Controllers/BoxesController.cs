@@ -25,7 +25,7 @@ namespace CourseLibrary.API.Controllers
         [HttpGet(Name = "GetBoxes")]
         public async Task<IActionResult> GetBoxes([FromQuery] BoxesResourceParameters boxesResourceParameters)
         {
-            var boxesFromRepo = await _archiveBoxRepository.GetBoxes(boxesResourceParameters);
+            var boxesFromRepo = await _archiveBoxRepository.GetBoxesAsync(boxesResourceParameters);
 
             var previousPageLink = boxesFromRepo.HasPrevious ? 
                 CreateBoxesResourceUri(boxesResourceParameters, ResourceUriType.Previous): null; 
@@ -52,10 +52,10 @@ namespace CourseLibrary.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetBox")]
-        public IActionResult GetBoxById(Guid id)
+        public async Task<IActionResult> GetBoxById(Guid id)
         {
 
-            var boxFromRepo = _archiveBoxRepository.GetBox(id);
+            var boxFromRepo = await _archiveBoxRepository.GetBoxAsync(id);
 
             if (boxFromRepo == null)
             {
@@ -74,7 +74,7 @@ namespace CourseLibrary.API.Controllers
             }
 
             _archiveBoxRepository.AddBox(archiveBox);
-            _archiveBoxRepository.Save();
+            _archiveBoxRepository.SaveChangesAsync();
 
             return CreatedAtRoute("GetBox", new { id = archiveBox.Id }, archiveBox);
         }
@@ -82,7 +82,7 @@ namespace CourseLibrary.API.Controllers
         [HttpPut("{boxId}")]
         public async Task<ActionResult<ArchiveBox>> UpdateBox(Guid boxId, ArchiveBox archiveBox)
         {
-            var boxFromRepo = await _archiveBoxRepository.GetBox(boxId);
+            var boxFromRepo = await _archiveBoxRepository.GetBoxAsync(boxId);
 
             if (boxFromRepo == null)
             {
@@ -92,7 +92,7 @@ namespace CourseLibrary.API.Controllers
             boxFromRepo.Name = archiveBox.Name;
             boxFromRepo.Code = archiveBox.Code;
 
-            _archiveBoxRepository.Save();
+            await _archiveBoxRepository.SaveChangesAsync();
 
             return NoContent();
 
@@ -101,7 +101,7 @@ namespace CourseLibrary.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ArchiveBox>> Deletebox(Guid id)
         {
-            var boxFromRepo = await _archiveBoxRepository.GetBox(id);
+            var boxFromRepo = await _archiveBoxRepository.GetBoxAsync(id);
 
             if (boxFromRepo == null)
             {
@@ -109,7 +109,7 @@ namespace CourseLibrary.API.Controllers
             }
 
             _archiveBoxRepository.DeleteBox(boxFromRepo);
-            _archiveBoxRepository.Save();
+            await _archiveBoxRepository.SaveChangesAsync();
 
             return NoContent();
         }
