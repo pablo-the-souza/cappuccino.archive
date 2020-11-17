@@ -9,23 +9,24 @@ import { ArchiveService } from '../archive.service';
   styleUrls: ['./archive-form.component.css']
 })
 export class ArchiveFormComponent implements OnInit {
-  update: String;
-  selectedOption: number; 
-  categories: Observable<any>; 
-  records : Observable<any>; 
-  isAddingCategory : boolean; 
+  update: string;
+  selectedOption: string; 
+  boxes: Observable<any>; 
+  files : Observable<any>; 
+  isAddingBox: boolean; 
 
   constructor(public service: ArchiveService) { }
 
   ngOnInit(): void {
-    this.isAddingCategory = false; 
+    this.isAddingBox = false; 
     this.resetForm();
-    this.records = this.service.getFilesForForm();
-    this.categories = this.service.getBoxes();
+    this.files = this.service.getFilesForForm();
+    this.boxes = this.service.getBoxes();
 
     this.service.boxFormData = {
       id: "",
-      name: ""
+      name: "",
+      code: ""
     }
   }
 
@@ -33,18 +34,18 @@ export class ArchiveFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    if (this.service.formData.id == "")
-      this.insertRecord(form)
+    if (this.service.boxFormData.id == "")
+      this.insertFile(form)
     else 
-      this.updateRecord(form)
+      this.updateFile(form)
   }
 
-  insertRecord(form: NgForm) {
-    console.log("I'm categoryID = " + form.value.categoryId)
-    this.service.postRecordDetail().subscribe(
+  insertFile(form: NgForm) {
+    console.log("I'm boxID = " + form.value.BoxId)
+    this.service.postFile().subscribe(
       res => {
         this.resetForm(form);
-        this.service.getRecords();
+        this.service.getFiles();
       },
       err => {
         console.log(err);
@@ -56,27 +57,27 @@ export class ArchiveFormComponent implements OnInit {
     if (form != null)
       form.resetForm();
 
-    this.service.formData = {
-      id: 0,
-      date: new Date,
+    this.service.fileFormData = {
+      id: "",
       name: "",
+      code: "",
       value: 0,
-      categoryId: 0, 
-      type: ""
+      boxId: "" , 
+      
     }
   }
 
 
-  updateCategory(event: any) {
-    this.service.formData.categoryId = this.selectedOption;
+  updateBox(event: any) {
+    this.service.fileFormData.boxId = this.selectedOption;
   }
 
-  updateRecord(form: NgForm) {
-    this.service.putRecordDetail().subscribe(
+  updateFile(form: NgForm) {
+    this.service.putFileDetail().subscribe(
       res => {
         console.log("Update ok")
         this.resetForm(form);
-        this.service.getRecords();
+        this.service.getFiles();
       },
       err => {
         console.log(err);
@@ -85,16 +86,16 @@ export class ArchiveFormComponent implements OnInit {
     );
   }
 
-  changeIsAddingCategory(){
-    this.isAddingCategory = true; 
+  changeIsAddingBox(){
+    this.isAddingBox = true; 
   }
 
-  insertCategory(categoryForm: NgForm){
-    this.isAddingCategory = false; 
-    this.service.postCategory().subscribe(
+  insertBox(boxForm: NgForm){
+    this.isAddingBox = false; 
+    this.service.postBox().subscribe(
       res => {
-        console.log("Category Inserted")
-        this.categories = this.service.getCategories();
+        console.log("Box Inserted")
+        this.boxes = this.service.getBoxes();
       },
       err => {
         console.log(err);
