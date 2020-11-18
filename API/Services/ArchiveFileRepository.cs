@@ -82,15 +82,15 @@ namespace Archive.API.Services
             _context.Add(file); 
         }         
 
-        // public void DeleteArchiveFile(ArchiveFile archiveFile)
-        // {
-        //     _context.ArchiveFiles.Remove(archiveFile);
-        // }
+        public void DeleteFile(ArchiveFile file)
+        {
+            _context.ArchiveFiles.Remove(file);
+        }
 
-        // public void UpdateArchiveFile(ArchiveFile archiveFile)
-        // {
-        //     // no code in this implementation
-        // }
+        public void UpdateFile(ArchiveFile file)
+        {
+            // no code in this implementation
+        }
 
         public bool FileExists(Guid fileId)
         {

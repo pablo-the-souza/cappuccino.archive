@@ -53,30 +53,40 @@ namespace Archivr.API.Controllers
             return CreatedAtRoute("GetFile", new { id = file.Id }, file);
         }
 
-        // [HttpDelete("{id}")]
-        // public ActionResult<file> Deletefile(int id)
-        // {
-        //     var fileForDeletion = _context.files.FirstOrDefault(r => r.Id == id);
-        //     _context.files.Remove(fileForDeletion);
-        //     _context.SaveChanges();
-        //     return Ok();
-        // }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ArchiveBox>> Deletebox(Guid id)
+        {
+            var fileFromRepo = await _archiveFileRepository.GetFileAsync(id);
 
-        // [HttpPut("{id}")]
-        // public ActionResult<file> Updatefile(int id, [FromBody] file file)
-        // {
-        //     var fileForUpdate = _context.files.FirstOrDefault(r => r.Id == id);
+            if (fileFromRepo == null)
+            {
+                return NotFound();
+            }
 
-        //     fileForUpdate.Date = file.Date; 
-        //     fileForUpdate.Name = file.Name; 
-        //     fileForUpdate.Value = file.Value;
-        //     fileForUpdate.Category = file.Category; 
-        //     fileForUpdate.Type = file.Date; 
+            _archiveFileRepository.DeleteFile(fileFromRepo);
+            await _archiveFileRepository.SaveChangesAsync();
 
-        //     _context.SaveChanges();
+            return NoContent();
+        }
 
-        //     return Ok();
-        // }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ArchiveFile>> UpdateFile(Guid id, ArchiveFile archiveFile)
+        {
+            var fileFromRepo = await _archiveFileRepository.GetFileAsync(id);
+
+            if (fileFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            fileFromRepo.Name = archiveFile.Name;
+            fileFromRepo.Code = archiveFile.Code;
+
+            await _archiveFileRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
 

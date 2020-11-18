@@ -86,6 +86,7 @@ namespace Archive.API.Services
             return await _context.ArchiveBoxes.FirstOrDefaultAsync(a => a.Id == archiveBoxId);
         }
 
+        // Not async because not I/O bound
         public void AddBox(ArchiveBox archiveBox)
         {
             if (archiveBox == null)
