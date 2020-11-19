@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ArchiveService } from '../archive.service';
+import { Guid } from "guid-typescript";
 
 @Component({
   selector: 'app-archive-form',
@@ -10,38 +11,42 @@ import { ArchiveService } from '../archive.service';
 })
 export class ArchiveFormComponent implements OnInit {
   update: string;
-  selectedOption: string; 
+  selectedOption: Guid; 
   boxes: Observable<any>; 
   files : Observable<any>; 
   isAddingBox: boolean; 
+  guid: Guid
+  
 
-  constructor(public service: ArchiveService) { }
+  constructor(public service: ArchiveService) { 
+      this.guid = Guid.create();
+      
+  }
 
   ngOnInit(): void {
     this.isAddingBox = false; 
     this.resetForm();
     this.files = this.service.getFilesForForm();
     this.boxes = this.service.getBoxes();
+    
 
     this.service.boxFormData = {
-      id: "",
+      id: "" ,
       name: "",
       code: ""
     }
+    console.log("I'm box form data id = " + this.service.boxFormData.id)
   }
 
 
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    if (this.service.fileFormData.id == "")
       this.insertFile(form)
-    else 
-      this.updateFile(form)
   }
 
   insertFile(form: NgForm) {
-    console.log("I'm boxID = " + form.value.BoxId)
+    console.log("I'm boxID = " + form.value.boxId)
     this.service.postFile().subscribe(
       res => {
         this.resetForm(form);
@@ -54,22 +59,23 @@ export class ArchiveFormComponent implements OnInit {
   }
 
   resetForm(form?: NgForm) {
+    console.log(this.guid)
     if (form != null)
       form.resetForm();
 
     this.service.fileFormData = {
-      id: "",
+      id: this.guid.toString(),
       name: "",
       code: "",
       value: 0,
-      boxId: "" , 
+      archiveBoxId: "" , 
       
     }
   }
 
 
   updateBox(event: any) {
-    this.service.fileFormData.boxId = this.selectedOption;
+    this.service.fileFormData.archiveBoxId = this.selectedOption.toString();
   }
 
   updateFile(form: NgForm) {

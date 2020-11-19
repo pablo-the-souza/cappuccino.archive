@@ -30,8 +30,13 @@
             </mat-form-field>
 
             <!-- HIDDEN Box -->
-            <input type=hidden name="boxId" #boxId="ngModel" [(ngModel)]="service.fileFormData.boxId"
-                class="form-control" placeholder="" required>
+            <input 
+              name="archiveBoxId" 
+              #archiveBoxId="ngModel" 
+              [(ngModel)]="service.fileFormData.archiveBoxId"
+              class="form-control" 
+              placeholder="" 
+              required>
 
             <!-- BUTTON -->
             <button mat-raised-button color="primary" type="submit">Submit</button>
