@@ -1,0 +1,12 @@
+.invisible {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+.archive-form {
+    padding: 20px;
+    margin: 20px;  
+    background-color: #E8EAF6;
+}

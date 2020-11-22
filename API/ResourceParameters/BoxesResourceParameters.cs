@@ -5,9 +5,9 @@ namespace Archive.API.ResourceParameters
         public string searchByName { get; set; }
         public string searchByCode { get; set; }
 
-        private const int MaxPageSize = 5; 
+        private const int MaxPageSize = 200; 
         public int PageNumber { get; set; } = 1;
-        private int _pageSize = 5;
+        private int _pageSize = 200;
         public int PageSize
         {
             get => _pageSize;

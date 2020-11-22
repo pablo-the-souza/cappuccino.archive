@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ArchiveService } from '../archive.service';
+import { ArchiveService } from '../../archive.service';
 import { Guid } from "guid-typescript";
 
 @Component({
-  selector: 'app-archive-form',
-  templateUrl: './archive-form.component.html',
-  styleUrls: ['./archive-form.component.css']
+  selector: 'app-archive-box-form',
+  templateUrl: './archive-box-form.component.html',
+  styleUrls: ['./archive-box-form.component.css']
 })
-export class ArchiveFormComponent implements OnInit {
+export class ArchiveBoxFormComponent implements OnInit {
   update: string;
   selectedOption: Guid; 
   boxes: Observable<any>; 

@@ -95,7 +95,7 @@ namespace Archive.API.Services
             }
 
             // the repository fills the id (instead of using identity columns)
-            archiveBox.Id = Guid.NewGuid();
+            // archiveBox.Id = Guid.NewGuid();
 
             _context.ArchiveBoxes.Add(archiveBox);
         }
