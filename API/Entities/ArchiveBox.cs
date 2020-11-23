@@ -13,8 +13,19 @@ namespace Archive.API.Entities
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Code { get; set; }
+
+        [MaxLength(50)]
+        public string DestructionFlag { get; set; }
+        
+        [MaxLength(50)]
+        public string Reference { get; set; }
+
+        public DateTimeOffset DateLeftOffice { get; set; }
+
+        [MaxLength(1000)]
+        public string Comments { get; set; }
 
         public ICollection<ArchiveFile> ArchiveFiles { get; set; }
             = new List<ArchiveFile>();

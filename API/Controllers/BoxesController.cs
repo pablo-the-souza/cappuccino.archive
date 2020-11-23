@@ -91,6 +91,10 @@ namespace CourseLibrary.API.Controllers
 
             boxFromRepo.Name = archiveBox.Name;
             boxFromRepo.Code = archiveBox.Code;
+            boxFromRepo.DestructionFlag = archiveBox.DestructionFlag;
+            boxFromRepo.DateLeftOffice = archiveBox.DateLeftOffice;
+            boxFromRepo.Reference = archiveBox.Reference;
+            boxFromRepo.Comments = archiveBox.Comments; 
 
             await _archiveBoxRepository.SaveChangesAsync();
 
