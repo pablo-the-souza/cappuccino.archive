@@ -1,113 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { ArchiveService } from '../../archive.service';
-import { Guid } from "guid-typescript";
+import { File } from '../../../models/file.model';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-archive-box-list',
   templateUrl: './archive-box-list.component.html',
   styleUrls: ['./archive-box-list.component.css']
 })
-export class ArchiveBoxListComponent implements OnInit {
-  update: string;
-  selectedOption: Guid; 
-  boxes: Observable<any>; 
-  files : Observable<any>; 
-  isAddingBox: boolean; 
-  guid: Guid
+export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
+  displayedColumns = ['date', 'name', 'value', 'category', 'type', 'button']
+  dataSource = this.service.dataSource;
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(public service: ArchiveService) { }
+
+  ngOnInit() {
+    this.getAllReports();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  doFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // hideValues () {
+  //   this.dataSource.filteredData()
+  // }
   
 
-  constructor(public service: ArchiveService) { 
-      this.guid = Guid.create();
-      
+  populateForm(rd: File) {
+    this.service.fileFormData = Object.assign({}, rd)
   }
 
-  ngOnInit(): void {
-    this.isAddingBox = false; 
-    this.resetForm();
-    this.files = this.service.getFilesForForm();
-    this.boxes = this.service.getBoxes();
-    
-
-    this.service.boxFormData = {
-      id: "" ,
-      name: "",
-      code: ""
-    }
-    console.log("I'm box form data id = " + this.service.boxFormData.id)
+  public getAllReports() {
+    let resp = this.service.getFiles();
+    console.log(resp)
+    resp.then(files => this.dataSource.data = files as File[]);
   }
 
-
-
-  onSubmit(form: NgForm) {
-    console.log(form.value)
-      this.insertFile(form)
-  }
-
-  insertFile(form: NgForm) {
-    console.log("I'm boxID = " + form.value.boxId)
-    this.service.postFile().subscribe(
-      res => {
-        this.resetForm(form);
-        this.service.getFiles();
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  resetForm(form?: NgForm) {
-    console.log(this.guid)
-    if (form != null)
-      form.resetForm();
-
-    this.service.fileFormData = {
-      id: this.guid.toString(),
-      name: "",
-      code: "",
-      value: 0,
-      archiveBoxId: "" , 
-      
+  onDelete(id) {
+    if (confirm('Are you sure?')) {
+      this.service.deleteFileDetail(id)
+        .subscribe(
+          res => { this.service.getFiles(); },
+          err => {
+            console.log(err);
+          })
     }
   }
-
-
-  updateBox(event: any) {
-    this.service.fileFormData.archiveBoxId = this.selectedOption.toString();
-  }
-
-  updateFile(form: NgForm) {
-    this.service.putFileDetail().subscribe(
-      res => {
-        console.log("Update ok")
-        this.resetForm(form);
-        this.service.getFiles();
-      },
-      err => {
-        console.log(err);
-        
-      }
-    );
-  }
-
-  changeIsAddingBox(){
-    this.isAddingBox = true; 
-  }
-
-  insertBox(boxForm: NgForm){
-    this.isAddingBox = false; 
-    this.service.postBox().subscribe(
-      res => {
-        console.log("Box Inserted")
-        this.boxes = this.service.getBoxes();
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-
 }
