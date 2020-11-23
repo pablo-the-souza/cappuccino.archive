@@ -13,7 +13,6 @@ export class ArchiveBoxFormComponent implements OnInit {
   update: string;
   selectedOption: Guid; 
   boxes: Observable<any>; 
-  files : Observable<any>; 
   isAddingBox: boolean; 
   guid: Guid
   
@@ -26,12 +25,11 @@ export class ArchiveBoxFormComponent implements OnInit {
   ngOnInit(): void {
     this.isAddingBox = false; 
     this.resetForm();
-    this.files = this.service.getFilesForForm();
     this.boxes = this.service.getBoxes();
     
 
     this.service.boxFormData = {
-      id: "" ,
+      id: this.guid.toString() ,
       name: "",
       code: ""
     }
@@ -42,15 +40,15 @@ export class ArchiveBoxFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-      this.insertFile(form)
+      this.insertBox(form)
   }
 
-  insertFile(form: NgForm) {
+  insertBox(form: NgForm) {
     console.log("I'm boxID = " + form.value.boxId)
-    this.service.postFile().subscribe(
+    this.service.postBox().subscribe(
       res => {
         this.resetForm(form);
-        this.service.getFiles();
+        this.service.getBoxes();
       },
       err => {
         console.log(err);
@@ -63,51 +61,25 @@ export class ArchiveBoxFormComponent implements OnInit {
     if (form != null)
       form.resetForm();
 
-    this.service.fileFormData = {
+    this.service.boxFormData = {
       id: this.guid.toString(),
       name: "",
       code: "",
-      value: 0,
-      archiveBoxId: "" , 
-      
     }
   }
 
 
-  updateBox(event: any) {
-    this.service.fileFormData.archiveBoxId = this.selectedOption.toString();
-  }
-
-  updateFile(form: NgForm) {
-    this.service.putFileDetail().subscribe(
-      res => {
-        console.log("Update ok")
-        this.resetForm(form);
-        this.service.getFiles();
-      },
-      err => {
-        console.log(err);
+  // updateBox(form: NgForm) {
+  //   this.service.putBoxDetail().subscribe(
+  //     res => {
+  //       console.log("Update ok")
+  //       this.resetForm(form);
+  //       this.service.getBoxs();
+  //     },
+  //     err => {
+  //       console.log(err);
         
-      }
-    );
-  }
-
-  changeIsAddingBox(){
-    this.isAddingBox = true; 
-  }
-
-  insertBox(boxForm: NgForm){
-    this.isAddingBox = false; 
-    this.service.postBox().subscribe(
-      res => {
-        console.log("Box Inserted")
-        this.boxes = this.service.getBoxes();
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-
+  //     }
+  //   );
+  // }
 }

@@ -1,83 +1,28 @@
 <mat-card class="archive-form" color="primary">
 
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <mat-form-field *ngIf="!isAddingBox" appearance="fill">
-            <mat-label>Box</mat-label>
-            <mat-select [(ngModel)]="selectedOption" (selectionChange)=updateBox(event)>
-                <mat-option *ngFor="let box of boxes | async " [value]="box.id">
-                    {{ box.name }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
+       
         <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm" autocomplete="off"
-            (submit)="onSubmit(form)">
-            <input type="hidden" name="id" [value]="service.fileFormData.id">
-
+        (submit)="onSubmit(form)">
+        <input type="hidden" name="id" [value]="service.boxFormData.id">
             <!-- NAME -->
 
             <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput name="name" #name="ngModel" [(ngModel)]="service.fileFormData.name" class="form-control"
+                <input matInput name="name" #name="ngModel" [(ngModel)]="service.boxFormData.name" class="form-control"
                     placeholder="name" required>
             </mat-form-field>
 
-            <!-- VALUE -->
+            <!-- CODE -->
             <mat-form-field appearance="fill">
                 <mat-label>Code</mat-label>
-                <input matInput name="value" #value="ngModel" [(ngModel)]="service.fileFormData.code"
-                    class="form-control" placeholder="Value" required>
+                <input matInput name="value" #value="ngModel" [(ngModel)]="service.boxFormData.code"
+                    class="form-control" placeholder="Code" required>
             </mat-form-field>
 
-            <!-- HIDDEN Box -->
-            <input 
-              name="archiveBoxId" 
-              #archiveBoxId="ngModel" 
-              [(ngModel)]="service.fileFormData.archiveBoxId"
-              class="form-control" 
-              placeholder="" 
-              required>
 
             <!-- BUTTON -->
             <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
     </div>
-
-
-
-
-    <!-- ADD Box FORM -->
-
-    <form *ngIf="!isAddingBox" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm"
-        autocomplete="off">
-        <mat-label>Can't find box?</mat-label>
-        <div class="form-group">
-            <button mat-raised-button color="primary" (click)="changeIsAddingBox()">Add New Box</button>
-        </div>
-
-    </form>
-
-    <!-- ADD Box FORM 2 -->
-
-    <form *ngIf="isAddingBox" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #boxForm="ngForm"
-        autocomplete="off" (submit)="insertBox(boxForm)">
-
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput name="name" #name="ngModel" [(ngModel)]="service.boxFormData.name" class="form-control"
-                placeholder="Box Name" required>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Code</mat-label>
-            <input matInput name="code" #name="ngModel" [(ngModel)]="service.boxFormData.code" class="form-control"
-                placeholder="Box Code" required>
-        </mat-form-field>
-
-        <div class="form-group">
-            <button mat-raised-button color="primary" type="submit">Add New Box</button>
-        </div>
-
-    </form>
-
 </mat-card>

@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+
 import { ArchiveComponent } from './archive/archive.component';
 import { ArchiveFileComponent } from './archive/archive-file/archive-file.component';
 import { ArchiveFileFormComponent } from './archive/archive-file/archive-file-form/archive-file-form.component';
@@ -36,7 +38,8 @@ import { ArchiveBoxListComponent } from './archive/archive-box/archive-box-list/
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
