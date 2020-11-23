@@ -17,7 +17,10 @@ export class ArchiveService {
   boxFormData: Box; 
   
   ELEMENT_DATA: File[] = []
-  dataSource = new MatTableDataSource<File>(this.ELEMENT_DATA);
+  BOX_ELEMENT_DATA: File[] = []
+
+  filesDataSource = new MatTableDataSource<File>(this.ELEMENT_DATA);
+  boxesDataSource = new MatTableDataSource<Box>(this.BOX_ELEMENT_DATA);
 
   readonly rootURL = 'https://localhost:5001/api'; 
 
@@ -32,21 +35,27 @@ export class ArchiveService {
     return this.http.post(this.rootURL + '/files', this.fileFormData, httpOptions)
   }
 
-  putFileDetail() {
+  putFile() {
     return this.http.put(
       this.rootURL + '/files/' + this.fileFormData.id,
       this.fileFormData)
   }
 
-  deleteFileDetail(id) {
+  deleteFile(id) {
     return this.http.delete(
       this.rootURL + '/files/' + id,
     )
   }
 
+  deleteBox(id) {
+    return this.http.delete(
+      this.rootURL + '/boxes/' + id,
+    )
+  }
+
   public getFiles() {
     return this.http.get(this.rootURL + '/files').toPromise()
-      .then(files => this.dataSource.data = files as File[])
+      .then(files => this.filesDataSource.data = files as File[])
   }
 
   public getFilesForForm() {
@@ -55,6 +64,11 @@ export class ArchiveService {
 
   public getBoxes() {
     return this.http.get<any>(this.rootURL + '/boxes')
+  }
+
+  public getBoxesForList() {
+    return this.http.get<any>(this.rootURL + '/boxes').toPromise()
+    .then(boxes => this.boxesDataSource.data = boxes as Box[])
   }
 
   postBox() {

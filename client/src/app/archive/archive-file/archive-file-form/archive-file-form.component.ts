@@ -59,7 +59,7 @@ export class ArchiveFileFormComponent implements OnInit {
   }
 
   updateFile(form: NgForm) {
-    this.service.putFileDetail().subscribe(
+    this.service.putFile().subscribe(
       res => {
         console.log("Update ok")
         this.resetForm(form);

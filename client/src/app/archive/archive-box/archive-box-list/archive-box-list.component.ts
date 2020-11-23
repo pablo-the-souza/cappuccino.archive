@@ -3,6 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { ArchiveService } from '../../archive.service';
 import { File } from '../../../models/file.model';
 import { MatPaginator } from '@angular/material/paginator';
+import { Box } from 'src/app/models/box.model';
 
 @Component({
   selector: 'app-archive-box-list',
@@ -10,8 +11,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./archive-box-list.component.css']
 })
 export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['date', 'name', 'value', 'category', 'type', 'button']
-  dataSource = this.service.dataSource;
+  displayedColumns = ['name', 'code', 'button']
+  dataSource = this.service.boxesDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -19,7 +20,7 @@ export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
   constructor(public service: ArchiveService) { }
 
   ngOnInit() {
-    this.getAllReports();
+    this.getAllBoxes();
   }
 
   ngAfterViewInit() {
@@ -40,17 +41,17 @@ export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
     this.service.fileFormData = Object.assign({}, rd)
   }
 
-  public getAllReports() {
-    let resp = this.service.getFiles();
+  public getAllBoxes() {
+    let resp = this.service.getBoxesForList();
     console.log(resp)
-    resp.then(files => this.dataSource.data = files as File[]);
+    resp.then(boxes => this.dataSource.data = boxes as Box[]);
   }
 
   onDelete(id) {
     if (confirm('Are you sure?')) {
-      this.service.deleteFileDetail(id)
+      this.service.deleteBox(id)
         .subscribe(
-          res => { this.service.getFiles(); },
+          res => { this.service.getBoxesForList(); },
           err => {
             console.log(err);
           })

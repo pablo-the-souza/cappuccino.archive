@@ -10,8 +10,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./archive-file-list.component.css']
 })
 export class ArchiveFileListComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['name', 'code']
-  dataSource = this.service.dataSource;
+  displayedColumns = ['name', 'code', 'button']
+  dataSource = this.service.filesDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -19,7 +19,7 @@ export class ArchiveFileListComponent implements OnInit, AfterViewInit {
   constructor(public service: ArchiveService) { }
 
   ngOnInit() {
-    this.getAllReports();
+    this.getAllFiles();
   }
 
   ngAfterViewInit() {
@@ -40,7 +40,7 @@ export class ArchiveFileListComponent implements OnInit, AfterViewInit {
     this.service.fileFormData = Object.assign({}, rd)
   }
 
-  public getAllReports() {
+  public getAllFiles() {
     let resp = this.service.getFiles();
     console.log(resp)
     resp.then(files => this.dataSource.data = files as File[]);
@@ -48,7 +48,7 @@ export class ArchiveFileListComponent implements OnInit, AfterViewInit {
 
   onDelete(id) {
     if (confirm('Are you sure?')) {
-      this.service.deleteFileDetail(id)
+      this.service.deleteFile(id)
         .subscribe(
           res => { this.service.getFiles(); },
           err => {

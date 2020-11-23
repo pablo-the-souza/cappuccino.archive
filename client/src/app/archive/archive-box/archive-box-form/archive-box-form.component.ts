@@ -48,7 +48,7 @@ export class ArchiveBoxFormComponent implements OnInit {
     this.service.postBox().subscribe(
       res => {
         this.resetForm(form);
-        this.service.getBoxes();
+        this.service.getBoxesForList();
       },
       err => {
         console.log(err);
