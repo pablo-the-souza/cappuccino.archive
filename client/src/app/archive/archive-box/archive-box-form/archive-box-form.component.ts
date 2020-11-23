@@ -40,7 +40,10 @@ export class ArchiveBoxFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value)
+    if (this.service.boxFormData.id == "")
       this.insertBox(form)
+    else 
+      this.updateBox(form)
   }
 
   insertBox(form: NgForm) {
@@ -69,17 +72,17 @@ export class ArchiveBoxFormComponent implements OnInit {
   }
 
 
-  // updateBox(form: NgForm) {
-  //   this.service.putBoxDetail().subscribe(
-  //     res => {
-  //       console.log("Update ok")
-  //       this.resetForm(form);
-  //       this.service.getBoxs();
-  //     },
-  //     err => {
-  //       console.log(err);
+  updateBox(form: NgForm) {
+    this.service.putBox().subscribe(
+      res => {
+        console.log("Update ok")
+        this.resetForm(form);
+        this.service.getBoxesForList();
+      },
+      err => {
+        console.log(err);
         
-  //     }
-  //   );
-  // }
+      }
+    );
+  }
 }

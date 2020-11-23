@@ -41,6 +41,12 @@ export class ArchiveService {
       this.fileFormData)
   }
 
+  putBox() {
+    return this.http.put(
+      this.rootURL + '/boxes/' + this.boxFormData.id,
+      this.boxFormData)
+  }
+
   deleteFile(id) {
     return this.http.delete(
       this.rootURL + '/files/' + id,

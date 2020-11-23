@@ -37,8 +37,8 @@ export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
   // }
   
 
-  populateForm(rd: File) {
-    this.service.fileFormData = Object.assign({}, rd)
+  populateForm(rd: Box) {
+    this.service.boxFormData = Object.assign({}, rd)
   }
 
   public getAllBoxes() {
