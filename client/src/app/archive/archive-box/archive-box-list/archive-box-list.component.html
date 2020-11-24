@@ -21,6 +21,26 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
             <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.code }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="destructionFlag">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destruction Flag</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.destructionFlag }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reference</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.reference }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateLeftOffice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Left Office</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.dateLeftOffice | date}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.comments }}</td>
+        </ng-container>
     
         <ng-container matColumnDef="button">
             <th mat-header-cell *matHeaderCellDef></th>

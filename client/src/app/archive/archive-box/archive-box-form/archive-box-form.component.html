@@ -1,10 +1,10 @@
 <mat-card class="archive-form" color="primary">
 
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-       
+
         <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm" autocomplete="off"
-        (submit)="onSubmit(form)">
-        <input type="hidden" name="id" [value]="service.boxFormData.id">
+            (submit)="onSubmit(form)">
+            <input type="hidden" name="id" [value]="service.boxFormData.id">
             <!-- NAME -->
 
             <mat-form-field appearance="fill">
@@ -16,9 +16,41 @@
             <!-- CODE -->
             <mat-form-field appearance="fill">
                 <mat-label>Code</mat-label>
-                <input matInput name="value" #value="ngModel" [(ngModel)]="service.boxFormData.code"
+                <input matInput name="code" #value="ngModel" [(ngModel)]="service.boxFormData.code"
                     class="form-control" placeholder="Code" required>
             </mat-form-field>
+
+            <!-- Destruction Flag -->
+            <mat-form-field appearance="fill">
+                <mat-label>Destruction Flag</mat-label>
+                <input matInput name="destructionFlag" #value="ngModel" [(ngModel)]="service.boxFormData.destructionFlag"
+                    class="form-control" placeholder="Destruction Flag" required>
+            </mat-form-field>
+
+            <!-- Reference -->
+            <mat-form-field appearance="fill">
+                <mat-label>Reference</mat-label>
+                <input matInput name="reference" #value="ngModel" [(ngModel)]="service.boxFormData.reference"
+                    class="form-control" placeholder="Reference" required>
+            </mat-form-field>
+
+            <!-- DATE-PICKER -->
+            <mat-form-field>
+                <input matInput name="dateLeftOffice" #dateLeftOffice="ngModel"
+                    [(ngModel)]="service.boxFormData.dateLeftOffice" placeholder="Date" [matDatepicker]="picker"
+                    required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+
+            <!-- Comments -->
+            <mat-form-field appearance="fill">
+                <mat-label>Comments</mat-label>
+                <input matInput name="comments" #value="ngModel" [(ngModel)]="service.boxFormData.comments"
+                    class="form-control" placeholder="Comments" required>
+            </mat-form-field>
+
 
 
             <!-- BUTTON -->

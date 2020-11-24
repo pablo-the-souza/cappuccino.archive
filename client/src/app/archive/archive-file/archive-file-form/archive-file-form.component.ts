@@ -35,7 +35,11 @@ export class ArchiveFileFormComponent implements OnInit {
     this.service.boxFormData = {
       id: this.boxNewGuid.toString(), 
       name: "",
-      code: ""
+      code: "",
+      destructionFlag: "",
+      reference: "",
+      dateLeftOffice: "",
+      comments: ""
     }
     console.log("I'm box form data id = " + this.service.boxFormData.id)
   }

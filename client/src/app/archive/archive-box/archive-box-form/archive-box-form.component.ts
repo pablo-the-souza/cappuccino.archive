@@ -13,7 +13,7 @@ export class ArchiveBoxFormComponent implements OnInit {
   update: string;
   selectedOption: Guid; 
   boxes: Observable<any>; 
-  isAddingBox: boolean; 
+  isUpdate: boolean; 
   guid: Guid
   
 
@@ -23,25 +23,22 @@ export class ArchiveBoxFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAddingBox = false; 
+    this.isUpdate = this.service.isUpdate; 
     this.resetForm();
     this.boxes = this.service.getBoxes();
-    
-
-    this.service.boxFormData = {
-      id: this.guid.toString() ,
-      name: "",
-      code: ""
-    }
-    console.log("I'm box form data id = " + this.service.boxFormData.id)
   }
 
 
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    if (this.service.boxFormData.id == "")
-      this.insertBox(form)
+    this.isUpdate = this.service.isUpdate; 
+    if (!this.isUpdate)
+      {
+        console.log("I'm Insert");
+        this.insertBox(form)
+      }
+      
     else 
       this.updateBox(form)
   }
@@ -68,6 +65,10 @@ export class ArchiveBoxFormComponent implements OnInit {
       id: this.guid.toString(),
       name: "",
       code: "",
+      destructionFlag: "",
+      reference: "",
+      dateLeftOffice: "",
+      comments: ""
     }
   }
 

@@ -11,7 +11,7 @@ import { Box } from 'src/app/models/box.model';
   styleUrls: ['./archive-box-list.component.css']
 })
 export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['name', 'code', 'button']
+  displayedColumns = ['name', 'code', 'destructionFlag', 'reference', 'dateLeftOffice','comments', 'button']
   dataSource = this.service.boxesDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -38,6 +38,7 @@ export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
   
 
   populateForm(rd: Box) {
+    this.service.isUpdate = true; 
     this.service.boxFormData = Object.assign({}, rd)
   }
 

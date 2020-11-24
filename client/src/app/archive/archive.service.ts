@@ -13,11 +13,12 @@ import { Observable, Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class ArchiveService {
+  isUpdate: boolean; 
   fileFormData: File;
   boxFormData: Box; 
   
   ELEMENT_DATA: File[] = []
-  BOX_ELEMENT_DATA: File[] = []
+  BOX_ELEMENT_DATA: Box[] = []
 
   filesDataSource = new MatTableDataSource<File>(this.ELEMENT_DATA);
   boxesDataSource = new MatTableDataSource<Box>(this.BOX_ELEMENT_DATA);
