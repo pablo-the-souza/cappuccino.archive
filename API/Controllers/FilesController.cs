@@ -83,6 +83,11 @@ namespace Archivr.API.Controllers
 
             fileFromRepo.Name = archiveFile.Name;
             fileFromRepo.Code = archiveFile.Code;
+            fileFromRepo.PolicyType = archiveFile.PolicyType;
+            fileFromRepo.PolicyNumber = archiveFile.PolicyNumber;
+            fileFromRepo.DateStart = archiveFile.DateStart;
+            fileFromRepo.DateEnd = archiveFile.DateEnd;
+            fileFromRepo.Comments = archiveFile.Comments;
 
             await _archiveFileRepository.SaveChangesAsync();
 

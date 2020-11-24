@@ -38,7 +38,7 @@ export class ArchiveBoxListComponent implements OnInit, AfterViewInit {
   
 
   populateForm(rd: Box) {
-    this.service.isUpdate = true; 
+    this.service.isBoxUpdate = true; 
     this.service.boxFormData = Object.assign({}, rd)
   }
 

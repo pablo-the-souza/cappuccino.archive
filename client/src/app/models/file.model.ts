@@ -1,10 +1,14 @@
-import { Guid } from 'guid-typescript';
+
 
 export class File {
     id: string; 
+    code: string; 
     name: string;
-    code: string;
-    value: number;
+    policyType: string;
+    policyNumber: string;
+    dateStart: string;
+    dateEnd: string;
+    comments: string; 
     archiveBoxId: string; 
 }
 

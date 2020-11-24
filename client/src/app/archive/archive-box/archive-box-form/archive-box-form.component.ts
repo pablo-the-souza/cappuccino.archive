@@ -23,7 +23,7 @@ export class ArchiveBoxFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isUpdate = this.service.isUpdate; 
+    this.isUpdate = this.service.isBoxUpdate; 
     this.resetForm();
     this.boxes = this.service.getBoxes();
   }
@@ -32,7 +32,7 @@ export class ArchiveBoxFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    this.isUpdate = this.service.isUpdate; 
+    this.isUpdate = this.service.isBoxUpdate; 
     if (!this.isUpdate)
       {
         console.log("I'm Insert");

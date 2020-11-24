@@ -1,7 +1,8 @@
 <mat-card class="archive-form" color="primary">
 
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <mat-form-field *ngIf="!isAddingBox" appearance="fill">
+    <div class="main" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <mat-form-field [style.width.px]=300 *ngIf="!isAddingBox" appearance="fill">
             <mat-label>Box</mat-label>
             <mat-select [(ngModel)]="selectedOption" (selectionChange)=updateBox(event)>
                 <mat-option *ngFor="let box of boxes | async " [value]="box.id">
@@ -9,39 +10,78 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        
 
-        <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm" autocomplete="off"
-            (submit)="onSubmit(form)">
-            <input type="hidden" name="id" [value]="service.fileFormData.id">
+        <div class="second">
+            <form fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm" autocomplete="off"
+                (submit)="onSubmit(form)">
+                <input type="hidden" name="id" [value]="service.fileFormData.id">
 
-            <!-- NAME -->
 
-            <mat-form-field appearance="fill">
-                <mat-label>Name</mat-label>
-                <input matInput name="name" #name="ngModel" [(ngModel)]="service.fileFormData.name" class="form-control"
-                    placeholder="name" required>
-            </mat-form-field>
+                <!-- CODE -->
 
-            <!-- CODE -->
-            <mat-form-field appearance="fill">
-                <mat-label>Code</mat-label>
-                <input matInput name="value" #value="ngModel" [(ngModel)]="service.fileFormData.code"
-                    class="form-control" placeholder="Code" required>
-            </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Code</mat-label>
+                    <input matInput name="code" #value="ngModel" [(ngModel)]="service.fileFormData.code"
+                        class="form-control" placeholder="Code" required>
+                </mat-form-field>
 
-            <!-- HIDDEN Box -->
-            <input 
-              hidden
-              name="archiveBoxId" 
-              #archiveBoxId="ngModel" 
-              [(ngModel)]="service.fileFormData.archiveBoxId"
-              class="form-control" 
-              placeholder="" 
-              required>
+                <!-- NAME -->
 
-            <!-- BUTTON -->
-            <button mat-raised-button color="primary" type="submit">Submit</button>
-        </form>
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput name="name" #name="ngModel" [(ngModel)]="service.fileFormData.name"
+                        class="form-control" placeholder="name" required>
+                </mat-form-field>
+
+                <!-- Policy Type -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Policy Type</mat-label>
+                    <input matInput name="policyType" #value="ngModel" [(ngModel)]="service.fileFormData.policyType"
+                        class="form-control" placeholder="Policy Type" required>
+                </mat-form-field>
+
+                <!-- Policy Number -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Policy Number</mat-label>
+                    <input matInput name="policyNumber" #value="ngModel" [(ngModel)]="service.fileFormData.policyNumber"
+                        class="form-control" placeholder="Policy Number" required>
+                </mat-form-field>
+
+                <!-- DATE-Start -->
+                <mat-form-field>
+                    <input matInput name="dateStart" #dateStart="ngModel" [(ngModel)]="service.fileFormData.dateStart"
+                        placeholder="Start Date" [matDatepicker]="picker" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- DATE-End -->
+                <mat-form-field>
+                    <input matInput name="dateEnd" #dateEnd="ngModel" [(ngModel)]="service.fileFormData.dateEnd"
+                        placeholder="End Date" [matDatepicker]="picker1" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+                <!-- Comments -->
+                <mat-form-field [style.width.px]=500 appearance="fill">
+                    <mat-label>Comments</mat-label>
+                    <input matInput name="comments" #value="ngModel" [(ngModel)]="service.fileFormData.comments"
+                        class="form-control" placeholder="Comments" required>
+                </mat-form-field>
+
+
+                <!-- HIDDEN Box -->
+                <input hidden name="archiveBoxId" #archiveBoxId="ngModel"
+                    [(ngModel)]="service.fileFormData.archiveBoxId" class="form-control" placeholder="" required>
+
+                <!-- BUTTON -->
+                <button mat-raised-button color="primary" type="submit">Submit</button>
+            </form>
+        </div>
+
+
     </div>
 
 

@@ -13,7 +13,8 @@ import { Observable, Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class ArchiveService {
-  isUpdate: boolean; 
+  isBoxUpdate: boolean; 
+  isFileUpdate: boolean
   fileFormData: File;
   boxFormData: Box; 
   

@@ -17,6 +17,7 @@ export class ArchiveFileFormComponent implements OnInit {
   isAddingBox: boolean; 
   fileNewGuid: Guid;
   boxNewGuid: Guid;
+  isUpdate: boolean; 
   
 
   constructor(public service: ArchiveService) { 
@@ -45,11 +46,15 @@ export class ArchiveFileFormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value)
-    if (this.service.fileFormData.id == "")
+    this.isUpdate = this.service.isFileUpdate; 
+    if (!this.isUpdate)
+    {
+      console.log("I'm Insert");
       this.insertFile(form)
-    else 
-      this.updateFile(form)
+    }
+    
+  else 
+    this.updateFile(form)
   }
 
   insertFile(form: NgForm) {
@@ -108,9 +113,13 @@ export class ArchiveFileFormComponent implements OnInit {
 
     this.service.fileFormData = {
       id: this.fileNewGuid.toString(),
-      name: "",
       code: "",
-      value: 0,
+      name: "",
+      policyType: "",
+      policyNumber: "",
+      dateStart: "",
+      dateEnd: "",
+      comments: "",
       archiveBoxId: "" , 
     }
   }
