@@ -21,6 +21,31 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
             <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.code }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="policyType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy Type</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.policyType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="policyNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy Number</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.policyNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateStart">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Start</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.dateStart | date}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateEnd">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date End</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.dateEnd | date}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
+            <td mat-cell *matCellDef="let element" (click)="populateForm(element)">{{ element.comments }}</td>
+        </ng-container>
     
         <ng-container matColumnDef="button">
             <th mat-header-cell *matHeaderCellDef></th>

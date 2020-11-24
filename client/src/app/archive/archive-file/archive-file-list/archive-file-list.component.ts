@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./archive-file-list.component.css']
 })
 export class ArchiveFileListComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['name', 'code', 'button']
+  displayedColumns = ['code','name', 'policyType', 'policyNumber', 'dateStart', 'dateEnd', 'comments', 'button']
   dataSource = this.service.filesDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -37,6 +37,7 @@ export class ArchiveFileListComponent implements OnInit, AfterViewInit {
   
 
   populateForm(rd: File) {
+    this.service.isFileUpdate = true; 
     this.service.fileFormData = Object.assign({}, rd)
   }
 
