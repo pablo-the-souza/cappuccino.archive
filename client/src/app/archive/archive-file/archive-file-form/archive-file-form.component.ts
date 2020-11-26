@@ -14,51 +14,38 @@ export class ArchiveFileFormComponent implements OnInit {
   selectedOption: Guid; 
   boxes: Observable<any>; 
   files : Observable<any>; 
-  isAddingBox: boolean; 
   fileNewGuid: Guid;
   boxNewGuid: Guid;
   isUpdate: boolean; 
   
 
   constructor(public service: ArchiveService) { 
+      this.selectedOption = this.selectedOption;
       this.fileNewGuid = Guid.create();
       this.boxNewGuid = Guid.create();
       
   }
 
   ngOnInit(): void {
-    this.isAddingBox = false; 
     this.resetForm();
     this.files = this.service.getFilesForForm();
     this.boxes = this.service.getBoxes();
-    
-
-    this.service.boxFormData = {
-      id: this.boxNewGuid.toString(), 
-      name: "",
-      code: "",
-      destructionFlag: "",
-      reference: "",
-      dateLeftOffice: "",
-      comments: ""
-    }
-    console.log("I'm box form data id = " + this.service.boxFormData.id)
   }
 
   onSubmit(form: NgForm) {
     this.isUpdate = this.service.isFileUpdate; 
-    if (!this.isUpdate)
-    {
-      console.log("I'm Insert");
-      this.insertFile(form)
-    }
-    
-  else 
-    this.updateFile(form)
+     if (!this.isUpdate)
+      {
+        console.log("I'm Insert");
+        this.insertFile(form)
+      }
+      
+    else 
+      this.updateFile(form)
   }
 
   insertFile(form: NgForm) {
-    console.log("I'm boxID = " + form.value.boxId)
+    console.log("I'm insert file = " + form.value.boxId)
     this.service.postFile().subscribe(
       res => {
         this.resetForm(form);
@@ -85,7 +72,6 @@ export class ArchiveFileFormComponent implements OnInit {
   }
 
   insertBox(boxForm: NgForm){
-    this.isAddingBox = false; 
     this.service.postBox().subscribe(
       res => {
         console.log("Box Inserted")
@@ -99,7 +85,7 @@ export class ArchiveFileFormComponent implements OnInit {
 
   changeIsAddingBox(){
     // this.resetForm();
-    this.isAddingBox = true; 
+
   }
 
   updateBox(event: any) {

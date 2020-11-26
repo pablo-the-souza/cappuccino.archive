@@ -24,7 +24,10 @@ export class ArchiveService {
   filesDataSource = new MatTableDataSource<File>(this.ELEMENT_DATA);
   boxesDataSource = new MatTableDataSource<Box>(this.BOX_ELEMENT_DATA);
 
-  readonly rootURL = 'https://localhost:5001/api'; 
+  // readonly rootURL = 'https://localhost:5001/api'; 
+  readonly rootURL = 'https://boxestest.azurewebsites.net/api'; 
+
+
 
   private fbSubs: Subscription[] = [];
 

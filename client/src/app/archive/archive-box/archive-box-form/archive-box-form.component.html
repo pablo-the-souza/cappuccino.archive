@@ -1,6 +1,8 @@
 <mat-card class="archive-form" color="primary">
 
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+
+        
 
         <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" #form="ngForm" autocomplete="off"
             (submit)="onSubmit(form)">
@@ -56,5 +58,7 @@
             <!-- BUTTON -->
             <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
+
+        <button routerLink="" mat-raised-button color="primary">Go to Files</button>
     </div>
 </mat-card>

@@ -26,6 +26,7 @@ namespace Archive.API.Services
         {
 
             return await _context.ArchiveFiles
+                .Include(f => f.ArchiveBox)
                 .OrderBy(f => f.Name).ToListAsync();
         }
 

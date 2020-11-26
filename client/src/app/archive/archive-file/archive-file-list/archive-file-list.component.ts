@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./archive-file-list.component.css']
 })
 export class ArchiveFileListComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['code','name', 'policyType', 'policyNumber', 'dateStart', 'dateEnd', 'comments', 'button']
+  displayedColumns = ['code', 'box', 'name', 'policyType', 'policyNumber', 'dateStart', 'dateEnd', 'comments', 'button']
   dataSource = this.service.filesDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
