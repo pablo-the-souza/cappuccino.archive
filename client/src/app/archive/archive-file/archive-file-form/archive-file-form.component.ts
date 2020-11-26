@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ArchiveService } from '../../archive.service';
 import { Guid } from "guid-typescript";
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-archive-file-form',
@@ -19,11 +21,15 @@ export class ArchiveFileFormComponent implements OnInit {
   isUpdate: boolean; 
   
 
-  constructor(public service: ArchiveService) { 
+  constructor(public service: ArchiveService,
+    @Inject(DOCUMENT) private _document: Document) {
       this.selectedOption = this.selectedOption;
       this.fileNewGuid = Guid.create();
       this.boxNewGuid = Guid.create();
-      
+  }
+
+  refreshPage() {
+    this._document.defaultView.location.reload();
   }
 
   ngOnInit(): void {
@@ -49,6 +55,7 @@ export class ArchiveFileFormComponent implements OnInit {
     this.service.postFile().subscribe(
       res => {
         this.resetForm(form);
+        this.refreshPage()
         this.service.getFiles();
       },
       err => {
